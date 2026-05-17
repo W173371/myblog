@@ -1,0 +1,11 @@
+<nav id="breadcrumbs" class="breadcrumbs">
+    <a href="/">首页</a>
+    {{ if .Params.categories }}
+        {{ range .Params.categories }}
+            &nbsp;&nbsp;/&nbsp;&nbsp;
+            <a href="/categories/{{ . | urlize }}/">{{ . }}</a>
+        {{ end }}
+    {{ end }}
+    &nbsp;&nbsp;/&nbsp;&nbsp;
+    <span>{{ .Title }}</span>
+</nav>

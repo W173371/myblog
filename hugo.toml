@@ -1,0 +1,74 @@
+baseURL = "https://example.com/"
+title = "魏俊浩的博客"
+theme = "PaperMod"
+defaultContentLanguage = "zh-cn"
+
+[params]
+  ShowReadingTime = true
+  ShowBreadCrumbs = true
+  defaultTheme = "auto"
+  dateFormat = "2006年1月2日"
+  ShowToc = true
+  TocOpen = true
+  ShowPostNavLinks = true
+
+[params.homeInfoParams]
+  title = "你好，我是魏俊浩 👋"
+  content = """
+  这里记录我的学习和思考。
+
+  📖 [**梅花易数**](/categories/梅花易数/) — 学习记录与心得
+
+  💻 [**数字生活**](/categories/数字生活/) — 个人数字化的踩坑与经验
+
+  ✍️ [**杂文**](/categories/杂文/) — 随笔、杂感和日常记录
+  """
+  Cover = "/images/avatar.png"
+  imageWidth = 120
+  imageHeight = 120
+
+[[menu.main]]
+  name = "首页"
+  url = "/"
+  weight = 10
+
+[[menu.main]]
+  name = "梅花易数"
+  url = "/categories/梅花易数/"
+  weight = 20
+
+[[menu.main]]
+  name = "数字生活"
+  url = "/categories/数字生活/"
+  weight = 30
+
+[[menu.main]]
+  name = "杂文"
+  url = "/categories/杂文/"
+  weight = 40
+
+[[menu.main]]
+  name = "归档"
+  url = "/archives/"
+  weight = 50
+
+[[menu.main]]
+  name = "关于"
+  url = "/about/"
+  weight = 60
+
+[languages.zh-cn]
+  languageName = "中文"
+  weight = 1
+  [languages.zh-cn.params]
+    home = "首页"
+    posts = "文章"
+    tableOfContents = "目录"
+    tags = "标签"
+    categories = "分类"
+    archives = "归档"
+    about = "关于"
+    prevPage = "上一页"
+    nextPage = "下一页"
+    minuteRead = "分钟阅读"
+    words = "字"

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>QQ问答机器人 | 魏俊浩的博客</title>
+<meta name="keywords" content="">
+<meta name="description" content="为什么会有这个想法
+年前接手了一个小的项目，客户使用QQ群进行沟通内部事宜。被拉进群后，经常会被问到一些重复性问题，于是想用机器人代替回答问题。
+因为qq官方机器人的必须是企业认证才可以，于是看看有没有别的办法。
+因为不懂编程，只有需求，所以使用了腾讯的codebody进行全程操作指导。
+下面将重点过程进行记录。
+所需内容：
+1.napcat软件
+负责处理 QQ 消息，不需要安装QQ软件；
+如果有Q软件会方便一些，可以在napcat网页的快捷登录）
+2.机器人程序
+机器人程序让codebody生成；
+运行机器人需要Node.js ，需要下载并安装依赖；
+实现步骤
+1.下载 NapCat
+下载地址： https://github.com/NapNeko/NapCatQQ/releases
+下载 NapCat.shell  解压到任意目录
+2.运行 NapCat
+进入解压后的目录，双击 Launcher，启动napcat
+启动后，命令行中会显示二维码，可以手Q扫码登录或者在napcat的web界面扫码登录。
+在二维码上方的命令行可以看到如下内容 
+[NapCat] [WebUi] WebUi Token:xxxxxxxx这是登录web配置的密码 
+[WebUi] WebUi User Panel Url: http://127.0.0.1:6099/   这是登录napcat网页端的地址
+3.配置 NapCat
+本机登录：http://127.0.0.1:6099
+登录token在启动日志中 WebUi Token
+在左侧功能栏-网络配置中，配置两个选项
+
+服务器：这个是机器人发消息的。默认的有个端口，如被占用，可以修改。记住token
+web服务器配置：这个是机器人Q接受消息的。默认的有个端口，如被占用，可以修改。同样，记住这个token
+
+4.用codebody生成机器人程序
+输入提示词，codebody会自动生成。
+“创建一个 QQ 群聊机器人，基于知识库回答问题”
+5.修改配置文件
+修改机器人文件夹中的.env文件，使用记事本即可打开。
+
+#QQ机器人配置文件
+#机器人QQ号（请修改）
+BOT_QQ=你的机器人QQ号
+#管理员QQ号（可以控制机器人的QQ）
+ADMIN_QQ=你的管理员QQ号
+#机器人回复触发前缀
+BOT_TRIGGER_PREFIX=@机器人
+#NapCat HTTP API 地址
+NAPCAT_API=http://127.0.0.1:xxxx
+#NapCat HTTP API Token（必须与NapCat配置一致）
+NAPCAT_TOKEN=你的token">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/qq%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BA/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.ee8eee85a52612faa0e19a52b8840d019ebc32f4d78f4623bb40e806ce74772a.css" integrity="sha256-7o7uhaUmEvqg4ZpSuIQNAZ68MvTXj0Yju0DoBs50dyo=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="http://localhost:1313/posts/qq%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BA/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="魏俊浩的博客 (Alt + H)">魏俊浩的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/%E6%A2%85%E8%8A%B1%E6%98%93%E6%95%B0/" title="梅花易数">
+                    <span>梅花易数</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/%E6%95%B0%E5%AD%97%E7%94%9F%E6%B4%BB/" title="数字生活">
+                    <span>数字生活</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/%E6%9D%82%E6%96%87/" title="杂文">
+                    <span>杂文</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav id="breadcrumbs" class="breadcrumbs">
+    <a href="/">首页</a>
+    
+        
+            &nbsp;&nbsp;/&nbsp;&nbsp;
+            <a href="/categories/%E6%95%B0%E5%AD%97%E7%94%9F%E6%B4%BB/">数字生活</a>
+        
+    
+    &nbsp;&nbsp;/&nbsp;&nbsp;
+    <span>QQ问答机器人</span>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      QQ问答机器人
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-05-15 11:21:54 +0800 CST'>2026年5月15日</span>&nbsp;·&nbsp;<span>1 min</span>
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bc%9a%e6%9c%89%e8%bf%99%e4%b8%aa%e6%83%b3%e6%b3%95" aria-label="为什么会有这个想法">为什么会有这个想法</a></li>
+                    <li>
+                        <a href="#%e6%89%80%e9%9c%80%e5%86%85%e5%ae%b9" aria-label="所需内容：">所需内容：</a></li>
+                    <li>
+                        <a href="#%e5%ae%9e%e7%8e%b0%e6%ad%a5%e9%aa%a4" aria-label="实现步骤">实现步骤</a><ul>
+                            
+                    <li>
+                        <a href="#1%e4%b8%8b%e8%bd%bd-napcat" aria-label="1.下载 NapCat">1.下载 NapCat</a></li>
+                    <li>
+                        <a href="#2%e8%bf%90%e8%a1%8c-napcat" aria-label="2.运行 NapCat">2.运行 NapCat</a></li>
+                    <li>
+                        <a href="#3%e9%85%8d%e7%bd%ae-napcat" aria-label="3.配置 NapCat">3.配置 NapCat</a></li>
+                    <li>
+                        <a href="#4%e7%94%a8codebody%e7%94%9f%e6%88%90%e6%9c%ba%e5%99%a8%e4%ba%ba%e7%a8%8b%e5%ba%8f" aria-label="4.用codebody生成机器人程序">4.用codebody生成机器人程序</a></li>
+                    <li>
+                        <a href="#5%e4%bf%ae%e6%94%b9%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" aria-label="5.修改配置文件">5.修改配置文件</a></li>
+                    <li>
+                        <a href="#6%e5%90%af%e5%8a%a8%e6%9c%ba%e5%99%a8%e4%ba%ba%e7%a8%8b%e5%ba%8f" aria-label="6.启动机器人程序">6.启动机器人程序</a></li>
+                    <li>
+                        <a href="#7%e7%bb%99%e6%9c%ba%e5%99%a8%e4%ba%baq%e5%8f%91%e6%b6%88%e6%81%af" aria-label="7.给机器人Q发消息">7.给机器人Q发消息</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e7%9b%ae%e5%89%8d%e8%bf%99%e4%b8%aa%e6%96%b9%e6%a1%88%e7%9a%84%e5%bc%8a%e7%ab%af" aria-label="目前这个方案的弊端">目前这个方案的弊端</a></li>
+                    <li>
+                        <a href="#%e5%90%8e%e7%bb%ad%e7%9a%84%e5%8d%87%e7%ba%a7%e6%96%b9%e5%90%91" aria-label="后续的升级方向">后续的升级方向</a></li>
+                    <li>
+                        <a href="#%e5%85%b6%e4%bb%96%e4%ba%8b%e9%a1%b9" aria-label="其他事项">其他事项</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%88%9b%e5%bb%ba%e6%9c%ba%e5%99%a8%e4%ba%ba%e7%9a%84%e6%8f%90%e7%a4%ba%e8%af%8d" aria-label="创建机器人的提示词">创建机器人的提示词</a></li>
+                    <li>
+                        <a href="#token%e7%9a%84%e4%bd%9c%e7%94%a8%e6%98%af%e4%bb%80%e4%b9%88" aria-label="token的作用是什么？">token的作用是什么？</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    
+    document.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+    
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        if (elements.length > 0) {
+            
+            activeElement = elements[0];
+            const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+            document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+        }
+    
+        
+        const topLink = document.getElementById('top-link');
+        if (topLink) {
+            topLink.addEventListener('click', (event) => {
+                
+                event.preventDefault();
+    
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    }, false);
+    
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+    
+    window.addEventListener('scroll', () => {
+        
+        const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    
+        
+        if (scrollPosition === 0) {
+            return;
+        }
+    
+        
+        if (elements && elements.length > 0) {
+            
+            activeElement = Array.from(elements).find((element) => {
+                if ((getOffsetTop(element) - scrollPosition) > 0 && 
+                    (getOffsetTop(element) - scrollPosition) < window.innerHeight / 2) {
+                    return element;
+                }
+            }) || activeElement;
+    
+            elements.forEach(element => {
+                const id = encodeURI(element.getAttribute('id')).toLowerCase();
+                const tocLink = document.querySelector(`.inner ul li a[href="#${id}"]`);
+                if (element === activeElement){
+                    tocLink.classList.add('active');
+    
+                    
+                    const tocContainer = document.querySelector('.toc .inner');
+                    const linkOffsetTop = tocLink.offsetTop;
+                    const containerHeight = tocContainer.clientHeight;
+                    const linkHeight = tocLink.clientHeight;
+    
+                    
+                    const scrollPosition = linkOffsetTop - (containerHeight / 2) + (linkHeight / 2);
+                    tocContainer.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+                } else {
+                    tocLink.classList.remove('active');
+                }
+            });
+        }
+    }, false);
+    
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+    
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+    
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+    
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+    
+</script>
+
+  <div class="post-content md-content"><h1 id="为什么会有这个想法">为什么会有这个想法<a hidden class="anchor" aria-hidden="true" href="#为什么会有这个想法">#</a></h1>
+<p>年前接手了一个小的项目，客户使用QQ群进行沟通内部事宜。被拉进群后，经常会被问到一些重复性问题，于是想用机器人代替回答问题。
+因为qq官方机器人的必须是企业认证才可以，于是看看有没有别的办法。</p>
+<p>因为不懂编程，只有需求，所以使用了腾讯的codebody进行全程操作指导。
+下面将重点过程进行记录。</p>
+<h1 id="所需内容">所需内容：<a hidden class="anchor" aria-hidden="true" href="#所需内容">#</a></h1>
+<p>1.napcat软件<br>
+负责处理 QQ 消息，不需要安装QQ软件；<br>
+如果有Q软件会方便一些，可以在napcat网页的快捷登录）</p>
+<p>2.机器人程序<br>
+机器人程序让codebody生成；<br>
+运行机器人需要Node.js ，需要下载并安装依赖；</p>
+<h1 id="实现步骤">实现步骤<a hidden class="anchor" aria-hidden="true" href="#实现步骤">#</a></h1>
+<h2 id="1下载-napcat">1.下载 NapCat<a hidden class="anchor" aria-hidden="true" href="#1下载-napcat">#</a></h2>
+<p>下载地址： <a href="https://github.com/NapNeko/NapCatQQ/releases">https://github.com/NapNeko/NapCatQQ/releases</a></p>
+<p>下载 NapCat.shell  解压到任意目录</p>
+<h2 id="2运行-napcat">2.运行 NapCat<a hidden class="anchor" aria-hidden="true" href="#2运行-napcat">#</a></h2>
+<p>进入解压后的目录，双击 Launcher，启动napcat<br>
+启动后，命令行中会显示二维码，可以手Q扫码登录或者在napcat的web界面扫码登录。<br>
+在二维码上方的命令行可以看到如下内容 <br>
+[NapCat] [WebUi] WebUi Token:xxxxxxxx这是登录web配置的密码 <br>
+[WebUi] WebUi User Panel Url: http://127.0.0.1:6099/   这是登录napcat网页端的地址</p>
+<h2 id="3配置-napcat">3.配置 NapCat<a hidden class="anchor" aria-hidden="true" href="#3配置-napcat">#</a></h2>
+<p>本机登录：http://127.0.0.1:6099<br>
+登录token在启动日志中 WebUi Token
+在左侧功能栏-网络配置中，配置两个选项</p>
+<ul>
+<li>服务器：这个是机器人发消息的。默认的有个端口，如被占用，可以修改。记住token</li>
+<li>web服务器配置：这个是机器人Q接受消息的。默认的有个端口，如被占用，可以修改。同样，记住这个token</li>
+</ul>
+<h2 id="4用codebody生成机器人程序">4.用codebody生成机器人程序<a hidden class="anchor" aria-hidden="true" href="#4用codebody生成机器人程序">#</a></h2>
+<p>输入提示词，codebody会自动生成。
+“创建一个 QQ 群聊机器人，基于知识库回答问题”</p>
+<h2 id="5修改配置文件">5.修改配置文件<a hidden class="anchor" aria-hidden="true" href="#5修改配置文件">#</a></h2>
+<p>修改机器人文件夹中的.env文件，使用记事本即可打开。</p>
+<blockquote>
+<p>#QQ机器人配置文件</p>
+<p>#机器人QQ号（请修改）
+BOT_QQ=你的机器人QQ号</p>
+<p>#管理员QQ号（可以控制机器人的QQ）
+ADMIN_QQ=你的管理员QQ号</p>
+<p>#机器人回复触发前缀
+BOT_TRIGGER_PREFIX=@机器人</p>
+<p>#NapCat HTTP API 地址
+NAPCAT_API=http://127.0.0.1:xxxx</p>
+<p>#NapCat HTTP API Token（必须与NapCat配置一致）
+NAPCAT_TOKEN=你的token</p>
+<p>#NapCat WebSocket 服务器地址
+NAPCAT_WS=ws://127.0.0.1:xxxx</p>
+<p>#NapCat WebSocket API Token（必须与NapCat配置一致）
+NAPCAT_TOKEN=你的token</p>
+</blockquote>
+<p>需要确保：HTTP服务端口：和 WebSocket 服务器地址 与napcat设置的一样。<br>
+如果你是先配置了napcat，那就把机器人程序和napcat保持一致；<br>
+如果你是先生成了机器人，那就napcat和机器人保持一致；<br>
+也可以任意修改，两者一致即可。</p>
+<h2 id="6启动机器人程序">6.启动机器人程序<a hidden class="anchor" aria-hidden="true" href="#6启动机器人程序">#</a></h2>
+<p>在机器人文件夹里，cmd 运行机器人程序</p>
+<pre tabindex="0"><code>npm start
+</code></pre><p>JS文件，依赖node.js ，可能需要安装一下。<br>
+登录：https://nodejs.org/，下载适合你的。然后一直安装即可。
+安装后，在命令行中进行安装依赖。</p>
+<pre tabindex="0"><code>npm install
+</code></pre><p>安装完毕后，继续启动机器人</p>
+<pre tabindex="0"><code>npm start
+</code></pre><h2 id="7给机器人q发消息">7.给机器人Q发消息<a hidden class="anchor" aria-hidden="true" href="#7给机器人q发消息">#</a></h2>
+<p>运行需要1.napcat程序启动2.qq机器人启动</p>
+<p>然后就可以给机器人q发消息了，私聊和群聊都可以。 <br>
+<img loading="lazy" src="/images/cs.png">
+但是这时，他只会响应机器人文件夹里的 Knowlege.json里的预置问题（根据关键词）。
+可以在文件里进行补充。</p>
+<h1 id="目前这个方案的弊端">目前这个方案的弊端<a hidden class="anchor" aria-hidden="true" href="#目前这个方案的弊端">#</a></h1>
+<p>1.命令行一关，程序就停了，或者本机关机、断电断网，机器人就回答不了问题了。甚至出现过，命令行没关，但是断网了，等连上网时，机器人咔咔回答断网期间的问题。</p>
+<p>2.回答比较机械，只能按照关键词响应。</p>
+<h1 id="后续的升级方向">后续的升级方向<a hidden class="anchor" aria-hidden="true" href="#后续的升级方向">#</a></h1>
+<p>1.把这套东西放云服务器上，只要服务器不关机，命令行不关就可以24小时运行。
+2.使用向量搜索或者接入AI大模型；</p>
+<p>首先，在机器人选择上踩坑了，code首先推荐的是go-cqhttp，这个始终登录不了QQ，发现是因为协议的原因。后面又换了napcat，成功的。</p>
+<h1 id="其他事项">其他事项<a hidden class="anchor" aria-hidden="true" href="#其他事项">#</a></h1>
+<h2 id="创建机器人的提示词">创建机器人的提示词<a hidden class="anchor" aria-hidden="true" href="#创建机器人的提示词">#</a></h2>
+<p>这是我事后，问了codebody，如果是第一次问，如何得出具有以上功能的机器人，他给的回复：</p>
+<blockquote>
+<p>“创建一个 QQ 群聊机器人，基于知识库回答问题
+技术栈：
+NapCat（QQ 协议适配器）
+Node.js + Express
+OneBot v11 协议
+WebSocket 通信
+核心功能：
+监听群聊/私聊消息
+基于 knowledge.json 关键词匹配回答
+支持管理员命令（状态、重新加载）
+不接入 AI，严格从知识库回答
+连接方式：
+机器人通过 WebSocket 连接到 NapCat
+通过 HTTP API 发送消息
+配置项：
+机器人 QQ 号
+管理员 QQ 号
+NapCat HTTP API 地址 + Token
+NapCat WebSocket 服务器地址  ”</p>
+</blockquote>
+<h2 id="token的作用是什么">token的作用是什么？<a hidden class="anchor" aria-hidden="true" href="#token的作用是什么">#</a></h2>
+<p>Token = 身份验证密钥就像门禁卡一样，用于验证&quot;你是不是合法用户&quot;。</p>
+<p>HTTP Token：调用 NapCat API（如发送消息）时需要
+WebSocket Token：连接 NapCat WebSocket 时需要
+你的 NapCat 配置了 Token，所以：</p>
+<p>机器人连接 WebSocket 时需要带 token
+机器人发送消息时也需要带 token
+如果不想这么麻烦，可以在 NapCat WebUI 中把 Token 全部清空（HTTP Server 和 WebSocket Server 都清空），这样两边都不需要验证，更简单。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="http://localhost:1313/posts/2026-05-12-%E5%87%A0%E4%B9%8E%E4%B8%A7%E5%A4%B1%E4%BA%86%E6%B7%B1%E5%BA%A6%E6%89%A7%E8%A1%8C%E5%8A%9B/">
+    <span class="title"> »</span>
+    <span>几乎丧失了深度执行力</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">魏俊浩的博客</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
