@@ -3,6 +3,7 @@
     "build": "hugo --minify"
   },
   "dependencies": {
-    "hugo-extended": "^0.158.0"
+    "hugo-bin": "^0.158.0",
+    "sass": "^1.86.0"
   }
 }
