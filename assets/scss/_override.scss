@@ -5,40 +5,28 @@
 
 @forward "variables" with (
   // ---------- 全局 ----------
-  $global-font-family: "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun", "Songti SC", Georgia, "Times New Roman", serif !default,
-  $global-font-size: 17px !default,
-  $global-font-weight: 400 !default,
-  $global-line-height: 1.75rem !default,
-  // 圆角
-  $global-border-radius: 8px !default,
-  // 背景色
-  $global-background-color: #fdfcf8 !default,
-  $global-background-color-dark: #1a1d23 !default,
-  // 文字色
-  $global-font-color: #33302e !default,
-  $global-font-color-dark: #d4cfc8 !default,
-  // 次要文字
-  $global-font-secondary-color: #8c8a86 !default,
-  $global-font-secondary-color-dark: #8b8680 !default,
-  // 链接色
-  $global-link-color: #161209 !default,
-  $global-link-color-dark: #e8e4dc !default,
-  $global-link-hover-color: #c0504d !default,
-  $global-link-hover-color-dark: #e8837f !default,
-  // 边框色
-  $global-border-color: #e8e4dc !default,
-  $global-border-color-dark: #2d313a !default,
-
-  // ---------- 选中 ----------
-  $selection-color: rgba(192, 80, 77, 0.12) !default,
-  $selection-color-dark: rgba(192, 80, 77, 0.18) !default,
-
-  // ---------- 顶栏 ----------
-  $header-height: 3.5rem !default,
-  $header-background-color: rgba(253, 252, 248, 0.85) !default,
-  $header-background-color-dark: rgba(26, 29, 35, 0.85) !default,
-  $header-title-font-size: 1.25rem !default,
-
-  // ---------- 首页 ----------
-  $home-profile-avatar-size: 120px !default,
+  $global-font-family: "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun", "Songti SC", Georgia, "Times New Roman", serif,
+  $global-font-size: 17px,
+  $global-font-weight: 400,
+  $global-line-height: 1.75rem,
+  $global-border-radius: 8px,
+  $global-background-color: #fdfcf8,
+  $global-background-color-dark: #1a1d23,
+  $global-font-color: #33302e,
+  $global-font-color-dark: #d4cfc8,
+  $global-font-secondary-color: #8c8a86,
+  $global-font-secondary-color-dark: #8b8680,
+  $global-link-color: #161209,
+  $global-link-color-dark: #e8e4dc,
+  $global-link-hover-color: #c0504d,
+  $global-link-hover-color-dark: #e8837f,
+  $global-border-color: #e8e4dc,
+  $global-border-color-dark: #2d313a,
+  $selection-color: rgba(192, 80, 77, 0.12),
+  $selection-color-dark: rgba(192, 80, 77, 0.18),
+  $header-height: 3.5rem,
+  $header-background-color: rgba(253, 252, 248, 0.85),
+  $header-background-color-dark: rgba(26, 29, 35, 0.85),
+  $header-title-font-size: 1.25rem,
+  $home-profile-avatar-size: 120px,
 );
