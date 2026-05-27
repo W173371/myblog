@@ -15,7 +15,7 @@ title = "魏俊浩的博客"
 
 # 网站根地址，部署时换成你的真实域名（如 "https://weijunhao.com/"）
 # 开发阶段用 https://example.com/ 或 http://localhost:1313/ 都可以
-baseURL = "https://wjhcs-01-1gi3qfuf7734457f-1409975926.tcloudbaseapp.com/"
+baseURL = "https://wjhcs-01-1gi3qfuf7734457f-1409975926.tcloudbaseapp.com/myblog/"
 
 # 使用的主题名称，对应 themes/FixIt 目录
 theme = "FixIt"
