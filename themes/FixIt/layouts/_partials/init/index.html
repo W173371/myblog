@@ -1,0 +1,10 @@
+{{- hugo.Store.Set "version" "v0.4.6-20260517062719-ed8ec5c2" -}}
+{{- .Store.Set "this" dict -}}
+
+{{- partial "init/detection-env.html" . -}}
+{{- partial "init/detection-version.html" . -}}
+{{- partial "init/detection-deprecated.html" . -}}
+{{- partial "init/detection-pagefind.html" . -}}
+{{- partial "init/global.html" . -}}
+{{- partial "init/patch.html" . -}}
+{{- partial "init/compatibility.html" . -}}

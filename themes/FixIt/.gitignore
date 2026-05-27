@@ -1,0 +1,38 @@
+# Hugo default output directory
+public/
+resources/
+
+# Hugo
+.hugo_build.lock
+jsconfig.json
+.hugo_cache
+
+# NPM
+node_modules/
+.eslintcache
+
+# VSCode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Trae
+.trae/
+
+# OS Files
+## Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## OSX
+.DS_Store
+
+## Linux
+.directory
+
+CHANGELOG.md
+docs
+.vercel
+.env*.local

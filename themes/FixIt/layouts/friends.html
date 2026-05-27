@@ -1,0 +1,69 @@
+{{- /*
+  [todo] refactor #206
+  [todo] link_guard usage in data file
+  Friends page template.
+
+  Usage:
+  1. Friend link items are loaded from data/friends.yml.
+  2. External link guard is disabled by default on this page.
+  3. To enable guard for all friend links on the current page, set `link_guard` to `true` in front matter.
+
+  @example
+  ```md
+  ---
+  title: friends
+  layout: friends
+  link_guard: true
+  ---
+  ```
+*/ -}}
+
+{{- define "title" -}}
+  {{- cond (.Param "capitalizeTitles") (title .Title) .Title -}}
+  {{- if .Site.Params.withSiteTitle }} {{ .Site.Params.titleDelimiter }} {{ .Site.Title }}{{- end -}}
+{{- end -}}
+
+{{- define "content" -}}
+  {{- $params := partial "function/params.html" -}}
+  {{- $isGuarded := .Params.link_guard | default false -}}
+  <article class="page single special friends">
+    <div class="header">
+      {{- /* Title */ -}}
+      <h1 class="single-title animate__animated animate__pulse animate__faster">{{- cond (.Param "capitalizeTitles") (title .Title) .Title -}}</h1>
+      {{- /* Subtitle */ -}}
+      {{- with $params.subtitle -}}<p class="single-subtitle animate__animated animate__fadeIn">{{ . | $.RenderString }}</p>{{- end -}}
+    </div>
+
+    {{- /* Friend links */ -}}
+    <script src="//at.alicdn.com/t/font_578712_g26jo2kbzd5qm2t9.js" async defer></script>
+    <div class="friend-links">
+      {{- range $index, $friend := hugo.Data.friends -}}
+        {{- $avatar := "" -}}
+        {{- if $friend.avatar -}}
+          {{- $avatar = dict "Src" $friend.avatar "Alt" $friend.nickname "Title" $friend.description "Class" "friend-avatar" | partial "plugin/image.html" -}}
+        {{- else -}}
+          {{- $avatar = printf `<svg class="friend-avatar" aria-hidden="true"><use xlink:href="#icon-%d"></use></svg>` (add 1 $index) -}}
+        {{- end -}}
+        {{- $nickname := printf `<span class="friend-nickname" title="%s">@%s</span>` $friend.nickname $friend.nickname -}}
+        {{- $options := dict
+          "Destination" $friend.url
+          "Title" $friend.description
+          "Content" (printf `%s%s` $avatar $nickname)
+          "Class" "friend-link"
+          "ExternalIcon" false
+          "IsGuarded" $isGuarded
+        -}}
+        {{- partial "plugin/link.html" $options -}}
+      {{- end -}}
+    </div>
+
+    {{- /* Content */ -}}
+    <div class="content" id="content">
+      {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+    </div>
+  </article>
+{{- end -}}
+
+{{- define "comments" -}}
+  {{- partial "layouts/comment.html" . -}}
+{{- end -}}

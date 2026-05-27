@@ -1,0 +1,1527 @@
+# =====================================================================================
+# 魏俊浩的博客 - Hugo FixIt 主题配置（全功能开启 + 详细中文注释）
+# 主题文档: https://fixit.lruihao.cn/documentation/
+# Hugo 文档: https://gohugo.io/documentation/
+# =====================================================================================
+
+
+# =====================================================================================
+#  一、Hugo 全局基础配置
+#    控制整个站点的基本信息，如标题、URL、语言等
+# =====================================================================================
+
+# 网站标题，会显示在浏览器标签页和 SEO 中
+title = "魏俊浩的博客"
+
+# 网站根地址，部署时换成你的真实域名（如 "https://weijunhao.com/"）
+# 开发阶段用 https://example.com/ 或 http://localhost:1313/ 都可以
+baseURL = "https://example.com/"
+
+# 使用的主题名称，对应 themes/FixIt 目录
+theme = "FixIt"
+
+# 默认内容语言，"zh-cn" 表示简体中文
+defaultContentLanguage = "zh-cn"
+
+# 是否包含中日韩文字（设为 true 会自动优化字数统计和摘要截断）
+hasCJKLanguage = true
+
+# 版权声明文字，仅用于 SEO schema，页脚版权需另外配置
+copyright = "魏俊浩"
+
+# 是否自动生成 robots.txt 文件，告诉搜索引擎哪些页面可以抓取
+enableRobotsTXT = true
+
+# 是否从 Git 提交记录中读取文章最后修改时间
+# ⚠️ 项目必须是 Git 仓库才能开启，用 git init 初始化后改 true
+enableGitInfo = false
+
+# 是否支持 Emoji 表情符号 😄（在 Markdown 中可直接使用）
+enableEmoji = true
+
+
+# =====================================================================================
+#  二、Front Matter（文章元数据）配置
+#    定义每篇文章的日期、修改时间等字段的读取优先级
+# =====================================================================================
+
+[frontmatter]
+  # lastmod（最后修改时间）的取值优先级：
+  #   1. 文章头部手动设置的 lastmod 字段
+  #   2. Git 提交记录中的修改时间（需 enableGitInfo = true）
+  #   3. 文件系统的修改时间
+  #   4. 默认值（通常是文件的创建时间）
+  # Hugo 会按顺序查找，取第一个存在的值
+  lastmod = ["lastmod", ":git", ":fileModTime", ":default"]
+
+
+# =====================================================================================
+#  三、图片处理配置
+#    控制 Hugo 生成缩略图时的默认质量
+# =====================================================================================
+
+[imaging]
+  # JPEG 图片压缩质量，范围 1-100，数值越大质量越好但文件也越大
+  quality = 75
+
+
+# =====================================================================================
+#  四、导航菜单配置
+#    每个菜单项会显示在顶部导航栏
+#    weight 越小越靠左，identifier 必须唯一
+#    icon 使用 FontAwesome 6 图标名，见 https://fontawesome.com/icons
+# =====================================================================================
+
+[menus]
+
+[[menus.main]]
+  identifier = "posts"          # 菜单唯一标识符
+  name = "文章"                 # 显示文字
+  url = "/posts/"               # 点击跳转的路径
+  weight = 1                    # 排序权重，数字越小越靠前
+  [menus.main.params]
+    icon = "fa-solid fa-newspaper"
+
+[[menus.main]]
+  identifier = "categories"
+  name = "分类"
+  url = "/categories/"
+  weight = 2
+  [menus.main.params]
+    icon = "fa-solid fa-folder-tree"
+
+[[menus.main]]
+  identifier = "tags"
+  name = "标签"
+  url = "/tags/"
+  weight = 3
+  [menus.main.params]
+    icon = "fa-solid fa-tags"
+
+[[menus.main]]
+  identifier = "archives"
+  name = "归档"
+  url = "/archives/"
+  weight = 4
+  [menus.main.params]
+    icon = "fa-solid fa-archive"
+
+[[menus.main]]
+  identifier = "about"
+  name = "关于"
+  url = "/about/"
+  weight = 5
+  [menus.main.params]
+    icon = "fa-solid fa-circle-info"
+
+
+# =====================================================================================
+#  五、相关文章推荐配置
+#    文章底部"相关推荐"的匹配策略，权重越高越优先匹配
+# =====================================================================================
+
+[related]
+  includeNewer = false                            # 是否包含比当前文章新的文章
+  threshold = 80                                  # 相关性阈值（0-100），低于此分数的不会显示
+  toLower = false                                 # 是否将关键词转为小写再比较
+
+[[related.indices]]
+  name = 'keywords'                               # 按文章关键词匹配
+  weight = 100                                    # 权重最高，关键词相同的文章优先推荐
+
+[[related.indices]]
+  name = 'date'
+  weight = 10                                     # 按日期相近匹配，权重较低
+
+[[related.indices]]
+  name = 'tags'                                   # 按标签匹配
+  weight = 80
+
+[[related.indices]]
+  name = 'fragmentrefs'                           # 按文档片段引用匹配
+  type = 'fragments'
+  weight = 80
+
+
+# =====================================================================================
+#  六、Hugo 模块配置
+# =====================================================================================
+
+[module]
+  [module.hugoVersion]
+    extended = true                               # 必须使用 Hugo Extended 版
+    min = "0.158.0"                               # 最低 Hugo 版本要求
+
+
+# =====================================================================================
+#  七、输出格式定义
+#    定义 Hugo 可以生成哪些类型的文件
+# =====================================================================================
+
+[outputFormats]
+
+  # 归档页面（/archives/index.html）
+  [outputFormats.archives]
+    path = "archives"
+    baseName = "index"
+    mediaType = "text/html"
+    isHTML = true
+    permalinkable = true                          # 有独立永久链接
+    notAlternative = true                         # 不是备选格式（不会在 link 标签中出现）
+
+  # 离线页面（/offline/index.html），PWA 离线时显示
+  [outputFormats.offline]
+    path = "offline"
+    baseName = "index"
+    mediaType = "text/html"
+    isHTML = true
+    permalinkable = true
+    notAlternative = true
+
+  # 友链页面（/link/index.html）
+  [outputFormats.link]
+    path = "link"
+    baseName = "index"
+    mediaType = "text/html"
+    isHTML = true
+    permalinkable = true
+    notAlternative = true
+
+  # 生成 README.md
+  [outputFormats.readme]
+    baseName = "readme"
+    mediaType = "text/markdown"
+    notAlternative = true
+
+  # 百度站长平台链接提交文件
+  [outputFormats.baidu_urls]
+    baseName = "baidu_urls"
+    mediaType = "text/plain"
+    notAlternative = true
+
+  # 搜索索引 JSON 文件（供前端搜索使用）
+  [outputFormats.search]
+    baseName = "search"
+    mediaType = "application/json"
+    rel = "search"
+    permalinkable = true
+
+
+# =====================================================================================
+#  八、页面输出设置
+#    决定每种页面类型生成哪些格式的文件
+# =====================================================================================
+
+[outputs]
+  # 首页生成：HTML + RSS + 归档 + 离线页 + 友链页 + 搜索索引
+  home = ["html", "rss", "archives", "offline", "link", "search"]
+  # 文章页生成：HTML + Markdown 源文件
+  page = ["html", "markdown"]
+  # 分区页（如 /posts/）生成：HTML + RSS
+  section = ["html", "rss"]
+  # 分类法页面（如 /categories/）生成：HTML
+  taxonomy = ["html"]
+  # 术语页面（如 /categories/技术/）生成：HTML + RSS
+  term = ["html", "rss"]
+
+
+# =====================================================================================
+#  九、分类法配置
+#    定义文章的分类和标签体系
+# =====================================================================================
+
+[taxonomies]
+  category = "categories"                         # 文章分类
+  tag = "tags"                                    # 文章标签
+  collection = "collections"                      # 合集/系列（支持文章连载）
+
+
+# =====================================================================================
+#  十、Markdown 渲染配置
+#    控制 Markdown 如何被解析和渲染成 HTML
+# =====================================================================================
+
+[markup]
+
+  # ---- 代码高亮 ----
+  [markup.highlight]
+    codeFences = true                             # 启用围栏代码块（``` 语法）
+    noClasses = false                             # 使用 CSS 类名而非内联样式（FixIt 要求的配置）
+    anchorLineNos = false                         # 是否给每行代码添加锚点链接
+    guessSyntax = true                            # 自动推测代码语言（未指定时）
+    lineNos = true                                # 显示行号
+    lineNumbersInTable = true                     # 行号放在表格中（更稳定，不会复制行号）
+
+  # ---- Goldmark 渲染器 ----
+  [markup.goldmark]
+    duplicateResourceFiles = false                # 重复资源文件不报错
+
+    # 扩展功能开关
+    [markup.goldmark.extensions]
+      definitionList = true                       # 定义列表（术语 + 解释）
+      footnote = true                             # 脚注 [^1]
+      linkify = true                              # 自动将 URL 转为链接
+      linkifyProtocol = 'https'                   # 自动链接时使用的协议
+      strikethrough = false                       # 删除线 ~~text~~（FixIt 用 extras.delete 实现）
+      table = true                                # 表格支持
+      taskList = true                             # 任务列表 - [ ] / - [x]
+      typographer = true                          # 印刷体优化（引号、破折号等）
+
+    # 额外 Markdown 扩展
+    [markup.goldmark.extensions.extras]
+      [markup.goldmark.extensions.extras.delete]
+        enable = true                             # 删除线 ~~text~~
+      [markup.goldmark.extensions.extras.insert]
+        enable = true                             # 下划线 ++text++
+      [markup.goldmark.extensions.extras.mark]
+        enable = true                             # 高亮标记 ==text==
+      [markup.goldmark.extensions.extras.subscript]
+        enable = true                             # 下标 ~text~
+      [markup.goldmark.extensions.extras.superscript]
+        enable = true                             # 上标 ^text^
+
+    # 数学公式支持（LaTeX 语法穿透）
+    [markup.goldmark.extensions.passthrough]
+      enable = true
+      [markup.goldmark.extensions.passthrough.delimiters]
+        block = [['\[', '\]'], ['$$', '$$']]      # 块级公式分隔符
+        inline = [['\(', '\)'], ['$', '$']]       # 行内公式分隔符
+
+    # 解析器设置
+    [markup.goldmark.parser]
+      [markup.goldmark.parser.attribute]
+        block = true                              # 允许块级元素添加自定义属性 {.class #id}
+        title = true                              # 允许给元素添加 title 属性
+
+    # 渲染器设置
+    [markup.goldmark.renderer]
+      hardWraps = false                           # 不把换行转为 <br>（Markdown 标准行为）
+      unsafe = true                               # ⚠️ 允许直接渲染原始 HTML（如需嵌入视频/iframe 必须开启）
+      xhtml = false                               # 不使用 XHTML 格式
+
+  # 表格设置
+  [markup.table]
+    autoType = true                               # 自动识别表格对齐方式
+
+
+# =====================================================================================
+#  十一、站点地图（Sitemap）
+#     告诉搜索引擎网站有哪些页面，影响 SEO 收录
+# =====================================================================================
+
+[sitemap]
+  changefreq = "weekly"                           # 页面更新频率：always/hourly/daily/weekly/monthly/yearly/never
+  filename = "sitemap.xml"                        # 生成的 sitemap 文件名
+  priority = 0.5                                  # 默认优先级 0.0-1.0（首页通常更高）
+
+
+# =====================================================================================
+#  十二、永久链接配置
+#     自定义文章 URL 格式，留空表示使用默认规则
+# =====================================================================================
+
+[permalinks]
+  [permalinks.page]
+  # posts = "/p/:slugorcontentbasename"           # 示例：文章页显示为 /p/文章名
+  [permalinks.section]
+  # posts = "/posts/:slugorcontentbasename"
+  [permalinks.taxonomy]
+  [permalinks.term]
+
+
+# =====================================================================================
+#  十三、隐私配置
+#     增强用户隐私保护（GDPR 相关）
+# =====================================================================================
+
+[privacy]
+  [privacy.x]
+    enableDNT = true                              # 启用 Do Not Track（不跟踪用户）
+  [privacy.youtube]
+    privacyEnhanced = true                        # YouTube 嵌入使用隐私增强模式（不追踪用户）
+
+
+# #####################################################################################
+# ##  FixIt 主题参数 - 全功能开启
+# ##  以下所有配置都在 [params] 下，是主题专属的配置项
+# #####################################################################################
+
+[params]
+  # 主题版本标识（用于兼容性检测，不要修改）
+  version = "0.4.X"
+
+  # 网站描述，显示在 SEO meta 标签中，也是 RSS 的描述
+  description = "魏俊浩的博客 - 记录学习与思考"
+
+  # 网站关键词，用于 SEO meta 标签
+  keywords = ["博客", "梅花易数", "数字生活", "杂文"]
+
+  # 默认主题模式：auto(跟随系统) / light(浅色) / dark(深色)
+  defaultTheme = "auto"
+
+  # 资源指纹（SRI）：sha256/sha384/sha512/md5，留空表示不启用
+  # 开启后会给 JS/CSS 加完整性校验，但每次发布需要重新生成哈希
+  fingerprint = ""
+
+  # 全局日期显示格式
+  # Go 语言的日期格式很特殊：必须用 2006-01-02 15:04:05 这个时间点
+  # 2006=年 01=月 02=日 15=时(24h) 04=分 05=秒
+  dateFormat = "2006年1月2日"
+
+  # 网站默认的 Open Graph 图片（分享到社交媒体时显示的封面图）
+  images = []
+
+  # PWA（渐进式 Web 应用）支持
+  # ⚠️ 需要额外配置 service worker 和 manifest，新手不建议开
+  enablePWA = false
+
+  # 是否自动将标题首字母大写（英文标题）
+  capitalizeTitles = true
+
+  # 是否在每个页面标题后面追加网站标题
+  # 例如：文章标题 - 魏俊浩的博客
+  withSiteTitle = true
+
+  # 网站标题分隔符，配合 withSiteTitle 使用
+  titleDelimiter = "-"
+
+  # 是否在首页标题中显示副标题
+  # 开启后首页标题会变为：网站标题 + 分隔符 + 副标题
+  indexWithSubtitle = false
+
+  # 是否在 RSS 和摘要中使用纯文本（去掉 HTML 标签）
+  summaryPlainify = false
+
+  # 是否启用翻译合并（多语言网站才需要）
+  # 开启后，某语言缺失的翻译会从其他语言合并
+  enableTranslationMerge = false
+
+  # 是否启用 tooltip 替换（脚注引用等元素的悬浮提示）
+  tooltip = true
+
+  # 是否禁用 FixIt 主题的 meta 标签注入
+  # 建议保持 false，这是对主题开发者的支持
+  disableThemeInject = false
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.1 作者信息
+  # -----------------------------------------------------------------------------------
+  [params.author]
+    name = "魏俊浩"                               # 作者名称
+    email = ""                                    # 邮箱（可用于 Gravatar 头像）
+    link = ""                                     # 个人主页链接
+    avatar = "/images/avatar.png"                 # 头像图片路径（放在 static/images/ 目录下）
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.2 Git 仓库信息
+  #      需要 enableGitInfo = true 才能生效
+  #      开启后文章底部可以显示"编辑此页"、"报告问题"等链接
+  # -----------------------------------------------------------------------------------
+  [params.gitInfo]
+    # GitHub 仓库地址，如 "https://github.com/你的用户名/你的仓库"
+    repo = ""
+    # 分支名，通常是 main 或 master
+    branch = "main"
+    # 内容目录在仓库中的相对路径
+    dir = "content"
+    # GitHub Issue 模板，点击"报告问题"时自动填充的表单内容
+    # {title}=文章标题 {URL}=文章链接 {sourceURL}=源文件路径
+    issueTpl = "title=[BUG]%20{title}&body=|Field|Value|%0A|-|-|%0A|Title|{title}|%0A|URL|{URL}|%0A|Filename|{sourceURL}|"
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.3 App 图标和浏览器主题色
+  # -----------------------------------------------------------------------------------
+  [params.app]
+    title = "魏俊浩的博客"                        # 添加到手机主屏时显示的名称
+    noFavicon = false                             # 是否省略 favicon 资源链接
+    # SVG favicon 路径，留空使用默认
+    svgFavicon = ""
+    # Safari 固定标签页图标的颜色
+    iconColor = "#5bbad5"
+    # Windows 磁贴颜色
+    tileColor = "#c0504d"
+
+    # Android/iOS 浏览器状态栏颜色
+    [params.app.themeColor]
+      light = "#fdfcf8"                           # 浅色模式下的主题色
+      dark = "#1a1d23"                            # 深色模式下的主题色
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.4 站内搜索
+  #      type 可选："fuse"(本地搜索) / "algolia"(第三方) / "pagefind" / "cse"(自定义)
+  # -----------------------------------------------------------------------------------
+  [params.search]
+    enable = true                                 # 是否启用搜索
+    type = "fuse"                                 # 使用 Fuse.js 本地搜索（无需外部服务）
+    contentLength = 4000                          # 索引的每篇文章最大字符数（太长影响性能）
+    placeholder = "搜索文章..."                   # 搜索框占位文字
+    maxResultLength = 10                          # 最大搜索结果数
+    snippetLength = 30                            # 结果摘要的长度（字符数）
+    highlightTag = "em"                           # 高亮关键词的 HTML 标签，如 "em" 或 "strong"
+    absoluteURL = false                           # 搜索结果是否使用绝对 URL
+    anchorify = true                              # 是否在搜索结果中显示标题锚点链接
+
+    # Algolia 搜索（需要注册 https://www.algolia.com/）
+    [params.search.algolia]
+      index = ""
+      appID = ""
+      searchKey = ""
+
+    # Fuse.js 搜索参数，详见 https://fusejs.io/api/options.html
+    [params.search.fuse]
+      isCaseSensitive = false                     # 是否区分大小写
+      minMatchCharLength = 2                      # 最小匹配字符数（小于此长度的搜索词会被忽略）
+      findAllMatches = false                      # 是否找出所有匹配
+      location = 0                                # 匹配位置权重
+      threshold = 0.3                             # 模糊匹配阈值（0=精确匹配，1=模糊匹配）
+      distance = 100                              # 模糊匹配的最大距离
+      ignoreLocation = false                      # 是否忽略位置权重
+      useExtendedSearch = false                   # 是否启用扩展搜索语法
+      ignoreFieldNorm = false                     # 是否忽略字段长度标准化
+
+    # Pagefind 搜索（构建时生成索引，性能最好）
+    [params.search.pagefind]
+      bundlePath = "pagefind/"                    # Pagefind 资源目录
+      debounceTimeoutMs = 300                     # 防抖延迟（毫秒），输入停顿多少毫秒后开始搜索
+      useBuiltInFilters = true                    # 是否使用 FixIt 内置的搜索过滤规则
+      sortBy = ""                                 # 排序字段，推荐 "date"
+      sortOrder = "desc"                          # 排序方向：asc(升序) / desc(降序)
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.5 自定义搜索引擎（CSE）
+  #      使用 Google/Bing 的站内搜索代替本地搜索
+  # -----------------------------------------------------------------------------------
+  [params.cse]
+    engine = ""                                   # 搜索引擎：google / bing，留空禁用
+    resultsPage = "/search/"                      # 搜索结果页路径
+
+    [params.cse.google]
+      cx = ""                                     # Google 自定义搜索引擎 ID
+
+    [params.cse.bing]
+    # Bing 自定义搜索（暂不支持）
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.6 导航栏
+  # -----------------------------------------------------------------------------------
+  [params.header]
+    # 桌面端导航栏模式：sticky(始终固定) / normal(正常滚动) / auto(自动，根据滚动方向显隐)
+    desktopMode = "sticky"
+    # 移动端导航栏模式：sticky / normal / auto
+    mobileMode = "auto"
+    # 导航栏毛玻璃模糊效果（需要浏览器支持 backdrop-filter）
+    blur = true
+
+    # 导航栏标题
+    [params.header.title]
+      logo = ""                                   # Logo 图片路径（会替换文字标题）
+      name = "魏俊浩的博客"                       # 标题文字
+      pre = "🏡 "                                 # 标题前的内容（支持 HTML/Emoji）
+      post = ""                                   # 标题后的内容
+      typeit = true                               # 是否使用打字机动画显示标题
+
+    # 导航栏副标题
+    [params.header.subtitle]
+      name = "记录学习与思考"                     # 副标题文字
+      typeit = true                               # 是否使用打字机动画
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.7 面包屑导航
+  #      显示"首页 > 分类 > 文章标题"的层级路径
+  # -----------------------------------------------------------------------------------
+  [params.breadcrumb]
+    enable = true                                 # 是否启用面包屑
+    sticky = false                                # 是否在滚动时固定面包屑
+    showHome = true                               # 是否显示"首页"链接
+    separator = "/"                               # 分隔符
+    capitalize = true                             # 是否将文字首字母大写
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.8 文章上下篇导航
+  #      文章底部显示"上一篇 / 下一篇"链接
+  # -----------------------------------------------------------------------------------
+  [params.navigation]
+    inSection = true                              # true=只在同分区内导航 / false=跨所有文章导航
+    reverse = false                               # 是否反转顺序（下一篇变上一篇）
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.9 页脚
+  # -----------------------------------------------------------------------------------
+  [params.footer]
+    enable = true                                 # 是否显示页脚
+    copyright = true                              # 是否显示版权信息（© 年份 作者）
+    author = true                                 # 是否显示作者
+    since = "2024"                                # 网站创建年份，页面会显示"2024-2026"
+    # 公安备案号（国内网站需要），支持 HTML
+    gov = ""
+    # ICP 备案号（国内网站需要），支持 HTML，如 "粤ICP备xxxxxxxx号"
+    icp = ""
+    # 自定义许可证信息，支持 HTML
+    license = ""
+
+    # Hugo & 主题 版权声明
+    [params.footer.powered]
+      enable = true                               # 是否显示"由 Hugo 驱动"
+      hugoLogo = false                            # 是否显示 Hugo Logo
+      themeLogo = false                           # 是否显示主题 Logo
+
+    # 网站运行时间
+    [params.footer.siteTime]
+      enable = true                               # 是否显示"已运行 X 天"
+      animate = true                              # 时间是否动画跳动
+      icon = "fa-solid fa-heart"                  # 图标（FontAwesome class）
+      pre = ""                                    # 图标前的文字
+      # 网站成立时间（ISO 8601 格式），用于计算运行天数
+      value = "2024-01-01T00:00:00+08:00"
+
+    # 页脚各行的显示顺序
+    # 可选：["first", 0, 1, 2, 3, 4, 5, "last"]
+    # 数字越小越靠上，相同数字按默认顺序排列
+    [params.footer.order]
+      powered = 0                                 # Hugo 版权信息
+      copyright = 0                               # 版权声明
+      statistics = 0                              # 统计信息
+      visitor = 0                                 # 访客计数
+      beian = 0                                   # 备案信息
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.10 归档页面
+  #        /archives/ 页面，按时间列出所有文章
+  # -----------------------------------------------------------------------------------
+  [params.archives]
+    paginate = 20                                 # 每页显示的文章数
+    dateFormat = "01-02"                          # 日期格式（只显示月-日）
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.11 分区页面
+  #        如 /posts/、/categories/ 下的文章列表
+  # -----------------------------------------------------------------------------------
+  [params.section]
+    paginate = 20                                 # 每页显示的文章数
+    dateFormat = "01-02"
+
+    # 分区 RSS/Atom/JSON Feed 设置
+    [params.section.feed]
+      limit = -1                                  # Feed 包含的文章数，-1 表示全部
+      fullText = false                            # 是否在 Feed 中输出全文
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.12 列表页面
+  #        如 /categories/技术/、/tags/hugo/ 等
+  # -----------------------------------------------------------------------------------
+  [params.list]
+    paginate = 20
+    dateFormat = "01-02"
+
+    # 列表 RSS/Atom/JSON Feed 设置
+    [params.list.feed]
+      limit = -1
+      fullText = false
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.13 最近更新标识
+  #        在归档、分区、列表页中，给近期更新的文章加上标记
+  # -----------------------------------------------------------------------------------
+[params.recentlyUpdated]
+  archives = false                              # 归档页显示更新标记（已关闭，只保留时间线）
+  section = true                                # 分区页显示更新标记
+  list = true                                   # 列表页显示更新标记
+  days = 30                                     # 多少天内的文章算"最近更新"
+  maxCount = 10                                 # 最多标记几篇
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.14 标签云
+  #        在 /tags/ 页面顶部显示大小不一的标签云
+  # -----------------------------------------------------------------------------------
+  [params.tagcloud]
+    enable = true                                 # 是否启用标签云
+    min = 14                                      # 最小字号（像素），对应最少文章的标签
+    max = 32                                      # 最大字号（像素），对应最多文章的标签
+    peakCount = 10                                # 字号达到最大所需的文章数
+    # 排序方式：name(按名称) / count(按文章数)
+    orderby = "name"
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.15 首页配置
+  # -----------------------------------------------------------------------------------
+  [params.home]
+
+    # ---- 首页个人资料区（头像 + 简介 + 快捷链接） ----
+    [params.home.profile]
+      enable = true                               # 是否显示个人资料区
+      # 是否只在第1页显示（翻到第2页后隐藏）
+      onlyFirstPage = false
+      # Gravatar 邮箱（用于获取 Gravatar 头像），优先级高于 avatarURL
+      gravatarEmail = ""
+      # 头像图片路径
+      avatarURL = "/images/avatar.png"
+      # 点击头像跳转的菜单项 identifier
+      avatarMenu = ""
+      # 个人标题（支持 HTML）
+      title = "你好，我是魏俊浩 👋"
+      # 个人简介（支持 HTML）
+      subtitle = "这里记录我的学习和思考。"
+      # 是否使用打字机动画
+      typeit = true
+      # 是否在简介下方显示社交链接
+      social = true
+      # 免责声明（支持 HTML）
+      disclaimer = ""
+
+      # 快捷链接按钮（可添加多个）
+      [[params.home.profile.link]]
+        name = "梅花易数"
+        url = "/categories/梅花易数/"
+        [params.home.profile.link.icon]
+          class = "fa-solid fa-yin-yang"
+
+      [[params.home.profile.link]]
+        name = "数字生活"
+        url = "/categories/数字生活/"
+        [params.home.profile.link.icon]
+          class = "fa-solid fa-laptop"
+
+      [[params.home.profile.link]]
+        name = "杂文"
+        url = "/categories/杂文/"
+        [params.home.profile.link.icon]
+          class = "fa-solid fa-feather"
+
+    # ---- 首页文章列表 ----
+    [params.home.posts]
+      enable = true                               # 是否在首页显示文章列表
+      paginate = 6                                # 每页显示的文章数
+      imagePreview = true                         # 是否显示文章的封面图片预览
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.16 社交链接
+  #        填入你的用户名/链接即可激活对应图标，留空则不显示
+  #        所有图标基于 FontAwesome 6
+  # -----------------------------------------------------------------------------------
+  [params.social]
+    GitHub = ""                                   # GitHub 用户名
+    Bilibili = ""                                 # B站 UID
+    Zhihu = ""                                    # 知乎用户名
+    Douban = ""                                   # 豆瓣用户名
+    QQ = ""                                       # QQ 号
+    QQGroup = ""                                  # QQ 群号或群链接
+    Email = ""                                    # 邮箱地址
+    RSS = true                                    # RSS 订阅（默认开启）
+    Phone = ""                                    # 手机号（谨慎公开）
+    Twitter = ""                                  # 推特用户名
+    Telegram = ""                                 # Telegram 用户名
+    Discord = ""                                  # Discord 用户名
+    Douyin = ""                                   # 抖音号
+    CSDN = ""                                     # CSDN 博客地址
+    Steam = ""                                    # Steam 个人主页
+    Spotify = ""                                  # Spotify 用户链接
+    Bluesky = ""                                  # Bluesky 用户名
+
+    # 更多可用平台（取消注释并填入用户名即可激活）：
+    # LinkedIn, Instagram, Facebook, YouTube, Twitch, Weibo, GitLab,
+    # StackOverflow, Medium, Patreon, Ko-Fi, Mastodon, ORCID 等
+    # 完整列表见：https://fixit.lruihao.cn/documentation/basics/#social-configuration
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.17 TypeIt 打字机动画参数
+  #       影响所有使用了 typeit = true 的地方
+  # -----------------------------------------------------------------------------------
+  [params.typeit]
+    speed = 100                                   # 每打一个字的速度（毫秒）
+    cursorSpeed = 1000                            # 光标闪烁速度（毫秒）
+    cursorChar = "|"                              # 光标字符（支持 HTML）
+    duration = -1                                 # 打完字后光标保留时间（毫秒），-1=永远保留
+    loop = false                                  # 是否循环播放动画
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.18 Mermaid 图表
+  #       在 Markdown 中用代码块写流程图、时序图、甘特图等
+  #       语法：```mermaid ... ```
+  # -----------------------------------------------------------------------------------
+  [params.mermaid]
+    wrapper = true                                # 是否显示图表工具栏（缩放/下载/重置）
+    cdn = ""                                      # 自定义 CDN 地址，留空使用默认 jsDelivr
+    zenuml = ""                                   # ZenUML 图表 CDN（画时序图的另一种风格）
+    # 浅色/深色模式的主题
+    themes = ["default", "dark"]
+    # 安全级别：strict/loose/antiscript/sandbox
+    securityLevel = "loose"
+    # 线条风格：classic(直线) / handDrawn(手绘风格)
+    look = "handDrawn"
+    fontFamily = ""                               # 自定义字体
+    # 额外布局加载器（如 ELK 布局引擎）
+    layoutLoaders = []
+    # 默认布局算法：dagre(默认) / elk / elk.layered 等
+    layout = "dagre"
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.19 自定义警告框（Admonition）
+  #        给 Markdown 的警告框添加自定义图标
+  #        语法：<类型> = <FontAwesome 图标 class>
+  # -----------------------------------------------------------------------------------
+  [params.admonition]
+    # 取消注释即可启用自定义警告框图标
+    # ban = "fa-solid fa-ban"
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.20 自定义任务列表
+  #        给 Markdown 任务列表添加自定义图标
+  #        语法：<标记> = <FontAwesome 图标 class>
+  # -----------------------------------------------------------------------------------
+  [params.taskList]
+    # 取消注释即可启用
+    # tip = "fa-regular fa-lightbulb"             # - [tip] 会显示灯泡图标
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.21 版本号 Shortcode
+  #        在文章中用 {{< version >}} 显示主题版本号
+  # -----------------------------------------------------------------------------------
+  [params.repoVersion]
+    url = "https://github.com/hugo-fixit/FixIt/releases/tag/v"
+    name = "FixIt"
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.22 PanguJS - 中英文自动加空格
+  #        在中文和英文/数字之间自动插入空格，提升排版美感
+  #        例如 "你好World" → "你好 World"
+  # -----------------------------------------------------------------------------------
+  [params.pangu]
+    enable = true                                 # 是否启用
+    selector = "article"                          # 生效的 CSS 选择器（只在文章内容区生效）
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.23 网页水印
+  #        给网页添加半透明文字水印，防止内容被盗
+  # -----------------------------------------------------------------------------------
+  [params.watermark]
+    enable = false                                # 建议需要时再开启，水印有性能开销
+    content = "魏俊浩的博客"                      # 水印文字
+    opacity = 0.1                                 # 透明度（0=完全透明, 1=完全不透明）
+    width = 150                                   # 单个水印宽度（像素）
+    height = 20                                   # 单个水印高度（像素）
+    rowSpacing = 60                               # 行间距（像素）
+    colSpacing = 30                               # 列间距（像素）
+    rotate = 15                                   # 旋转角度（度）
+    fontSize = 0.85                               # 字体大小（rem）
+    fontFamily = "inherit"                        # 字体（继承页面字体）
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.24 不蒜子 - 极简网站统计
+  #        无需注册，显示网站总访问量和页面访问量
+  # -----------------------------------------------------------------------------------
+  [params.busuanzi]
+    enable = true                                 # 是否启用
+    source = "https://vercount.one/js"            # 统计脚本源（vercount 比 busuanzi 更快）
+    siteViews = true                              # 显示网站总访问量
+    pageViews = true                              # 显示单篇文章访问量
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.25 搜索引擎站点验证
+  #        在搜索引擎站长平台添加网站后，把验证码填在这里
+  #        用于 Google/Bing/Baidu 等搜索引擎收录你的网站
+  # -----------------------------------------------------------------------------------
+  [params.verification]
+    google = ""                                   # Google Search Console 验证码
+    bing = ""                                     # Bing Webmaster Tools 验证码
+    yandex = ""                                   # Yandex Webmaster 验证码
+    pinterest = ""                                # Pinterest 验证码
+    baidu = ""                                    # 百度站长平台验证码
+    so = ""                                       # 360 搜索验证码
+    sogou = ""                                    # 搜狗搜索验证码
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.26 全局 SEO 配置
+  # -----------------------------------------------------------------------------------
+  [params.seo]
+    image = ""                                    # 默认 SEO 配图路径（OG/Twitter Card 用）
+    thumbnailUrl = ""                             # 缩略图 URL
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.27 统计分析
+  #        各类网站流量分析工具的配置
+  #        填入对应 ID/Token 后把 enable 改为 true
+  # -----------------------------------------------------------------------------------
+  [params.analytics]
+    enable = false                                # ⚠️ 总开关，填入 ID 后改为 true
+
+    # Google Analytics (GA4)
+    [params.analytics.google]
+      id = ""                                     # GA4 测量 ID（格式：G-XXXXXXXXXX）
+      anonymizeIP = true                          # 是否匿名化访客 IP（GDPR 合规）
+
+    # Fathom Analytics（隐私友好的分析工具）
+    [params.analytics.fathom]
+      id = ""
+      server = ""                                 # 自托管服务器地址
+
+    # 百度统计
+    [params.analytics.baidu]
+      id = ""                                     # 百度统计 ID（如 HM 开头的字符串）
+
+    # Umami Analytics（开源自托管分析工具）
+    [params.analytics.umami]
+      data_website_id = ""                        # 网站 ID
+      src = ""                                    # 脚本地址
+      data_host_url = ""                          # 数据上报地址
+      data_domains = ""                           # 域名
+
+    # Plausible Analytics（开源自托管分析工具）
+    [params.analytics.plausible]
+      data_domain = ""                            # 域名
+      src = ""                                    # 脚本地址
+
+    # Cloudflare Web Analytics
+    [params.analytics.cloudflare]
+      token = ""                                  # CF Analytics Token
+
+    # Splitbee Analytics
+    [params.analytics.splitbee]
+      enable = false
+      no_cookie = true                            # 无 Cookie 模式
+      do_not_track = true                         # 尊重浏览器 DNT 设置
+      data_token = ""
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.28 Cookie 同意提示
+  #        欧盟 GDPR 要求网站在使用 Cookie 前获得用户同意
+  # -----------------------------------------------------------------------------------
+  [params.cookieconsent]
+    enable = true                                 # 是否显示 Cookie 同意横幅
+
+    [params.cookieconsent.content]
+      message = ""                                # 提示文字（留空使用默认多语言文本）
+      dismiss = ""                                # "同意"按钮文字
+      link = ""                                   # "了解更多"链接文字
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.29 CDN 配置
+  #        自定义第三方库的 CDN 源
+  # -----------------------------------------------------------------------------------
+  [params.cdn]
+    # CDN 数据文件名，可选：jsdelivr.yml / unpkg.yml
+    # 留空使用默认，自定义文件放在 assets/data/cdn/ 目录下
+    data = ""
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.30 浏览器兼容性
+  #      为老旧浏览器加载 polyfill
+  # -----------------------------------------------------------------------------------
+  [params.compatibility]
+    polyfill = false                              # 加载 Polyfill.io（兼容 IE11 等老旧浏览器）
+    objectFit = false                             # 加载 object-fit-images（兼容 object-fit CSS 属性）
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.31 GitHub 角标
+  #        网页右上角或左上角显示 GitHub 仓库链接
+  # -----------------------------------------------------------------------------------
+  [params.githubCorner]
+    enable = false                                # 填入 permalink 后改为 true
+    permalink = ""                                # GitHub 仓库完整链接
+    title = "View source on GitHub"               # 鼠标悬浮提示文字
+    position = "right"                            # 位置：left(左上角) / right(右上角)
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.32 Gravatar 全球头像
+  #        根据邮箱自动获取 Gravatar 头像
+  # -----------------------------------------------------------------------------------
+  [params.gravatar]
+    enable = false                                # 是否启用 Gravatar（需要 author.email 有效）
+    host = "www.gravatar.com"                     # Gravatar 服务器，国内可换 cravatar.cn
+    # 默认头像风格：空/mp/identicon/monsterid/wavatar/retro/robohash
+    style = ""
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.33 回到顶部按钮
+  # -----------------------------------------------------------------------------------
+  [params.backToTop]
+    enable = true                                 # 是否显示回到顶部按钮
+    scrollpercent = true                          # 按钮周围是否显示滚动百分比环
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.34 阅读进度条
+  #        页面顶部或底部的进度条，表示阅读进度
+  # -----------------------------------------------------------------------------------
+  [params.readingProgress]
+    enable = true
+    start = "left"                                # 起始方向：left(从左到右) / right(从右到左)
+    position = "top"                              # 位置：top(页面顶部) / bottom(页面底部)
+    reversed = false                              # 是否反转（0%=已看完, 100%=还没看）
+    light = "#c0504d"                             # 浅色模式下颜色
+    dark = "#e8837f"                              # 深色模式下颜色
+    height = "3px"                                # 进度条高度
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.35 PACE 页面加载进度条
+  #        页面顶部华丽的加载动画条
+  # -----------------------------------------------------------------------------------
+  [params.pace]
+    enable = true
+    # 颜色：black/blue/green/orange/pink/purple/red/silver/white/yellow
+    color = "red"
+    # 主题风格：
+    #   barber-shop(斑马线) / big-counter(大数字) / bounce(弹跳球) /
+    #   center-atom(原子旋转) / center-circle(圆圈) / center-radar(雷达) /
+    #   center-simple(简约中心) / corner-indicator(角落指示器) /
+    #   fill-left(左侧填充) / flash(闪烁) / flat-top(平顶条) /
+    #   loading-bar(加载条) / mac-osx(Mac风格) / material(材料设计) /
+    #   minimal(极简)
+    theme = "minimal"
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.36 PostChat AI 智能助手
+  #        基于文章内容构建知识库，支持 AI 总结、AI 搜索、AI 对话
+  #        注册地址：https://ai.zhheo.com/console/login?InviteID=85041330
+  # -----------------------------------------------------------------------------------
+  [params.postChat]
+    enable = false                                # 填入 PostChat Key 后改为 true
+    key = ""                                      # PostChat 密钥
+    # 对话模式：iframe(浮窗模式) / magic(魔法模式，嵌入页面)
+    userMode = "iframe"
+    addButton = true                              # 是否显示聊天按钮
+    defaultInput = false                          # 是否默认展开输入框
+    left = ""                                     # 距离左侧距离（CSS 值，如 "20px"）
+    bottom = ""                                   # 距离底部距离
+    width = ""                                    # 宽度
+    height = ""                                   # 高度
+    fill = ""                                     # 填充颜色
+    backgroundColor = ""                          # 背景颜色
+    upLoadWeb = true                              # 是否上传网页内容
+    showInviteLink = true                         # 是否显示邀请链接
+    userTitle = ""                                # 用户标题
+    userDesc = ""                                 # 用户描述
+    # 需要黑屏遮罩的 DOM 容器（如音乐播放器 [".aplayer"]）
+    blackDom = []
+    frameWidth = ""                               # iframe 宽度（如 "375px"）
+    frameHeight = ""                              # iframe 高度（如 "600px"）
+    userIcon = ""                                 # 用户头像（仅 magic 模式）
+    defaultChatQuestions = []                     # 默认聊天问题列表
+    defaultSearchQuestions = []                   # 默认搜索问题列表
+    hotWords = true                               # 是否显示热词
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.37 AI 文章摘要
+  #        自动为每篇文章生成 AI 摘要
+  # -----------------------------------------------------------------------------------
+  [params.postSummary]
+    enable = false                                # 填入 key 后改为 true
+    key = ""                                      # PostChat Key（与上面通用）
+    title = ""                                    # 摘要区块标题
+    theme = ""                                    # 主题：空/simple/yanzhi/menghuan
+    postURL = ""                                  # 文章 URL
+    blacklist = ""                                # 不需要摘要的页面
+    wordLimit = 1000                              # 摘要字数限制
+    typingAnimate = true                          # 打字动画
+    beginningText = ""                            # 开头语
+    loadingText = true                            # 加载中提示
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.38 AI 播客
+  #        将文章内容转为播客音频
+  # -----------------------------------------------------------------------------------
+  [params.podcast]
+    enable = false                                # 填入 key 后改 true
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.39 全局 Feed（RSS/Atom/JSON）配置
+  # -----------------------------------------------------------------------------------
+  [params.feed]
+    limit = 10                                    # Feed 包含的文章数，-1 表示全部
+    fullText = true                               # 是否在 Feed 中输出文章全文
+
+    # Follow 认证（https://follow.is/）
+    [params.feed.follow]
+      feedId = ""
+      userId = ""
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.40 图片优化
+  # -----------------------------------------------------------------------------------
+  [params.image]
+    cacheRemote = false                           # 是否缓存远程图片到本地（优化构建速度）
+    optimise = false                              # 是否启用图片尺寸优化和格式转换（可能拉慢构建速度）
+    # 排除优化的图片文件列表（支持通配符）
+    blackList = []
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.41 外部链接处理
+  # -----------------------------------------------------------------------------------
+  [params.link]
+    external_icon = true                          # 外部链接是否显示小图标（↗）
+
+    # 外部链接跳转确认
+    [params.link.guard]
+      enable = true                               # 是否启跳转确认
+      # 确认模式：modal(弹窗确认) / redirect(跳转到中间页)
+      mode = "modal"
+      # 白名单域名（这些域名的链接不需要确认），例如：["example.com", "github.com"]
+      allow_domains = []
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.42 代码块美化
+  # -----------------------------------------------------------------------------------
+  [params.codeblock]
+    wrapper = true                                # 是否显示代码块包装器（顶部工具栏）
+    # 代码块样式：classic(经典/Mac风格) / mac(Mac三色点) / simple(简约)
+    mode = "classic"
+    wrapperClass = ""                             # 额外的 CSS 类名
+    maxShownLines = 10                            # 代码块最大预览行数（超出折叠）
+    # 阴影效果：always(始终) / hover(鼠标悬停) / never(不显示)
+    shadow = "hover"
+    copyable = true                               # 是否显示复制按钮
+    downloadable = true                           # 是否显示下载按钮（classic 模式）
+    fullscreen = true                             # 是否显示全屏按钮（classic 模式）
+    lineNosToggler = true                         # 是否显示行号切换按钮
+    lineWrapToggler = true                        # 是否显示自动换行按钮
+    editable = false                              # 【实验性】是否允许编辑代码
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.43 JSON 查看器
+  #        Markdown 中 ```json 代码块自动渲染为可交互的 JSON 树
+  # -----------------------------------------------------------------------------------
+  [params.jsonViewer]
+    enable = true
+    expandDepth = 1                               # 默认展开层级（1=只展开第一层）
+    copyable = true                               # 是否可复制
+    sort = false                                  # 是否对 JSON key 排序
+    boxed = true                                  # 是否显示边框
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.44 文件树
+  #        在文章中显示目录结构
+  #        用法：{{< filetree >}} ... {{< /filetree >}}
+  # -----------------------------------------------------------------------------------
+  [params.filetree]
+    level = 1                                     # 默认展开层级：-1=全部展开, 0=全部折叠, 1=展开第一层
+    folderSlash = false                           # 文件夹名后是否加 "/"
+    ignoreList = []                               # 忽略的文件/文件夹名列表
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.45 分类法图标
+  #        给 category、tag 等分类法设置专属图标
+  #        格式：[标题图标, 卡片图标, 术语标题图标]
+  # -----------------------------------------------------------------------------------
+  [params.taxonomy_icons]
+    # category = ["fa-solid fa-book-bookmark", "fa-solid fa-book", "fa-solid fa-book-open"]
+    # tag = ["fa-solid fa-tag", "fa-solid fa-tags", "fa-solid fa-hashtag"]
+    # collection = ["fa-solid fa-layer-group", "fa-solid fa-list-ol", "fa-solid fa-list-check"]
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.46 打印优化
+  #        打印页面时自动展开折叠的内容
+  # -----------------------------------------------------------------------------------
+  [params.print]
+    expand_admonition = true                      # 打印前展开所有警告框
+    expand_code = true                            # 打印前展开所有折叠代码块
+    expand_details = true                         # 打印前展开所有 <details> 元素
+    expand_file_tree = false                      # 打印前展开所有文件树
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.47 自定义 Partial（高级功能）
+  #        在页面的指定位置注入自定义 HTML 片段
+  #        需要在 layouts/_partials/ 目录下创建对应的 HTML 文件
+  # -----------------------------------------------------------------------------------
+  [params.customPartials]
+    head = []                                     # 注入到 <head> 标签中
+    menuDesktop = []                              # 桌面端菜单末尾
+    menuMobile = []                               # 移动端菜单末尾
+    profile = []                                  # 首页个人资料区
+    aside = []                                    # 侧边栏
+    comment = []                                  # 评论区
+    footer = []                                   # 页脚
+    widgets = []                                  # 小工具区
+    assets = []                                   # 资源加载区
+    postTocBefore = []                            # 文章目录前
+    postTocAfter = []                             # 文章目录后
+    postContentBefore = []                        # 文章正文前
+    postContentAfter = []                         # 文章正文后
+    postFooterBefore = []                         # 文章页脚前
+    postFooterAfter = []                          # 文章页脚后
+
+
+  # -----------------------------------------------------------------------------------
+  #  14.48 开发者选项
+  # -----------------------------------------------------------------------------------
+  [params.dev]
+    enable = false                                # 是否启用开发模式
+    c4u = false                                   # 是否检查主题更新
+
+
+# =====================================================================================
+#  十五、文章页面配置
+#      控制所有文章页面的通用行为
+#      每篇文章也可以在 Front Matter 中单独覆盖这些设置
+# =====================================================================================
+
+[params.page]
+
+  # 是否在文章头部显示作者头像
+  authorAvatar = true
+
+  # 以下四个 hiddenFrom 控制文章在哪些地方被隐藏
+  # 设为 true 则隐藏（每篇文章的 Front Matter 中可以单独覆盖）
+  hiddenFromHomePage = false                      # 不在首页显示
+  hiddenFromSearch = false                        # 不在搜索结果中出现
+  hiddenFromRelated = false                       # 不出现在"相关文章"推荐中
+  hiddenFromFeed = false                          # 不出现在 RSS/Feed 中
+
+  # 是否启用 Twemoji（Twitter 风格 Emoji，替换系统默认 Emoji 显示）
+  twemoji = false
+
+  # 图片灯箱效果
+  #   false = 禁用
+  #   true  = 启用（只有带 title 的图片才会触发灯箱）
+  #   "force" = 强制（所有图片都可点击放大）
+  lightgallery = true
+
+  # 是否启用注音扩展语法（ruby 标签，中文注音用）
+  ruby = true
+
+  # 是否启用分数扩展语法（如 1/2 渲染为 ½）
+  fraction = true
+
+  # 是否启用 FontAwesome 图标扩展语法（:icon: 快捷写法）
+  fontawesome = true
+
+  # 文章版权许可证（支持 HTML）
+  # CC BY-NC-SA 4.0 = 署名-非商业性使用-相同方式共享
+  license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>'
+
+  # 以下 linkTo 系列控制文章底部显示哪些操作链接
+  linkToMarkdown = false                          # 链接到原始 Markdown 文件
+  linkToSource = false                            # 链接到 GitHub 源文件（需 enableGitInfo）
+  linkToEdit = false                              # 链接到 GitHub 编辑页面（需 enableGitInfo）
+  linkToReport = false                            # 链接到 GitHub 提 Issue（需 enableGitInfo）
+  linkToVscode = false                            # 链接到 VSCode 打开（vscode:// 协议）
+
+  # 文章页面宽度：narrow(窄) / normal(正常) / wide(宽)
+  pageStyle = "normal"
+
+  # 自动书签：关闭页面时记住阅读位置，下次打开自动跳转
+  autoBookmark = false
+
+  # 是否显示最后修改时间
+  showLastmod = true
+
+  # 是否显示文章字数
+  wordCount = true
+
+  # 是否显示预估阅读时间
+  readingTime = true
+
+  # 文章末尾的结束标记（支持 HTML/Emoji）
+  endFlag = "—— ✦ 全文完 ✦ ——"
+
+  # 是否启用 instant.page（鼠标悬停链接时预加载页面，提升浏览速度）
+  instantPage = false
+
+  # 是否在侧边栏显示合集列表
+  collectionList = false
+
+  # 是否在文章底部显示合集导航（上一篇/下一篇在同一合集内）
+  collectionNavigation = false
+
+
+  # ---- 转载声明 ----
+  [params.page.repost]
+    enable = false                                # 是否启用转载声明
+    url = ""                                      # 转载来源 URL
+
+
+  # ---- 文章目录（Table of Contents） ----
+  [params.page.toc]
+    enable = true                                 # 是否显示目录
+    keepStatic = false                            # 是否在文章开头保留静态目录
+    auto = true                                   # 是否自动折叠（滚动时展开当前章节）
+    position = "right"                            # 目录位置：left(左侧边栏) / right(右侧边栏)
+    ordered = false                               # 是否使用有序列表（1. 2. 3.）
+    startLevel = 2                                # 从第几级标题开始显示（H2起，忽略H1）
+    endLevel = 6                                  # 到第几级标题结束
+    decreaseH1 = false                            # 是否降级 H1（文章标题已是 H1）
+
+
+  # ---- 文章过期提醒 ----
+  #      当文章太久没更新时，在文章顶部显示提醒
+  [params.page.expirationReminder]
+    enable = true                                 # 是否启用过期提醒
+    reminder = 90                                 # 超过 90 天未更新 → 显示提醒
+    warning = 180                                 # 超过 180 天未更新 → 显示警告（更强提示）
+    closeComment = false                          # 过期后是否关闭评论区
+
+
+  # ---- 标题配置 ----
+  [params.page.heading]
+    capitalize = false                            # 是否将标题首字母大写
+
+    # 标题自动编号
+    [params.page.heading.number]
+      enable = true                               # 是否启用自动编号
+      # 只在主分区（posts）中启用编号
+      onlyMainSection = true
+
+      # 编号格式模板：
+      #   {title} = 标题文字
+      #   {h2} {h3} {h4} ... = 对应层级的编号
+      [params.page.heading.number.format]
+        h1 = "{title}"                            # H1 不编号（通常是文章标题）
+        h2 = "{h2} {title}"                       # H2: "1 标题"
+        h3 = "{h2}.{h3} {title}"                  # H3: "1.1 标题"
+        h4 = "{h2}.{h3}.{h4} {title}"             # H4: "1.1.1 标题"
+        h5 = "{h2}.{h3}.{h4}.{h5} {title}"
+        h6 = "{h2}.{h3}.{h4}.{h5}.{h6} {title}"
+
+
+  # ---- 数学公式渲染 ----
+  [params.page.math]
+    enable = true                                 # 是否启用数学公式
+    # 渲染引擎：katex(轻量快速) / mathjax(功能全但重)
+    type = "katex"
+
+    # KaTeX 配置（https://katex.org）
+    [params.page.math.katex]
+      copyTex = true                              # 复制公式时附带 LaTeX 源码
+      throwOnError = false                        # 公式渲染出错时是否抛出异常
+      errorColor = "#ff4949"                      # 渲染错误时的文字颜色
+      [params.page.math.katex.macros]
+      # 自定义宏（LaTeX 简写命令）
+      # "\\f" = "#1f(#2)"                        # 示例：$\f{a}{b}$ → a f(b)
+
+    # MathJax 配置（备选方案，https://www.mathjax.org）
+    [params.page.math.mathjax]
+      cdn = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+      [params.page.math.mathjax.packages]
+      [params.page.math.mathjax.macros]
+      # bold = ["{\\bf #1}", 1]                  # 示例：$\bold{math}$ → 粗体 math
+
+      [params.page.math.mathjax.loader]
+        load = ["ui/safe"]                        # 加载安全 UI 组件
+        [params.page.math.mathjax.loader.paths]
+
+      [params.page.math.mathjax.options]
+        enableMenu = true                         # 右键菜单（可查看公式源码）
+        # 跳过这些 HTML 标签内的内容（不在其中搜索公式）
+        skipHtmlTags = ["script", "noscript", "style", "textarea", "pre", "code", "math", "select", "option", "mjx-container"]
+        # 带有此 class 的元素不搜索公式
+        ignoreHtmlClass = "mathjax_ignore"
+        [params.page.math.mathjax.options.includeHtmlTags]
+
+
+  # ---- Mapbox 地图 ----
+  #      注册获取 token：https://account.mapbox.com/
+  [params.page.mapbox]
+    accessToken = ""                              # ⚠️ 需要注册 Mapbox 获取免费 token
+    lightStyle = "mapbox://styles/mapbox/light-v11"
+    darkStyle = "mapbox://styles/mapbox/dark-v11"
+    navigation = true                             # 显示导航控件
+    geolocate = true                              # 显示定位控件
+    scale = true                                  # 显示比例尺
+    fullscreen = true                             # 显示全屏按钮
+
+
+  # ---- 相关文章推荐 ----
+  [params.page.related]
+    enable = true                                 # 是否在文章底部显示相关推荐
+    count = 5                                     # 推荐数量
+    # 显示位置：aside(侧边栏) / footer(文章底部)，两个都写则两处都显示
+    position = ["aside", "footer"]
+
+
+  # ---- 赞赏/打赏 ----
+  [params.page.reward]
+    enable = false                                # ⚠️ 放入收款码图片后改为 true
+    animation = false                             # 是否显示动画效果
+    position = "after"                            # 位置：before(文章前) / after(文章后)
+    # 二维码显示模式：static(始终显示) / fixed(固定悬浮)
+    mode = "static"
+
+    [params.page.reward.ways]
+      # 取消注释并放入图片路径（图片放在 static/images/ 目录下）
+      # wechatpay = "/images/wechatpay.png"       # 微信收款码
+      # alipay = "/images/alipay.png"             # 支付宝收款码
+      # paypal = "/images/paypal.png"             # PayPal
+      # bitcoin = "/images/bitcoin.png"           # 比特币
+
+
+  # ---- 社交分享按钮 ----
+  #      文章底部显示分享按钮，true=显示, false=隐藏
+  [params.page.share]
+    enable = true
+    Twitter = true                                # X (Twitter)
+    Facebook = true
+    Weibo = true                                  # 微博
+    Linkedin = false
+    Whatsapp = false
+    Pinterest = false
+    Tumblr = false
+    HackerNews = false
+    Reddit = false
+    VK = false                                    # VKontakte（俄罗斯社交平台）
+    Buffer = false
+    Xing = false
+    Line = false
+    Instapaper = false
+    Pocket = false
+    Flipboard = false
+    Myspace = false
+    Blogger = false
+    Baidu = false                                 # 百度
+    Odnoklassniki = false                         # OK.ru（俄罗斯社交平台）
+    Evernote = false
+    Skype = false
+    Trello = false
+    Mix = false
+
+
+  # ---- 评论系统 ----
+  #      注意：只能同时启用一个评论系统！
+  #      Giscus（推荐，基于 GitHub Discussions，免费无广告）
+  #      Waline（推荐，开源自托管，功能强大）
+  [params.page.comment]
+    enable = false                                # ⚠️ 选一个评论系统填入信息后改为 true
+
+    # Artalk（开源自托管评论系统 https://artalk.js.org/）
+    [params.page.comment.artalk]
+      enable = false
+      server = "https://yourdomain"               # 服务器地址
+      site = "默认站点"
+
+    # Disqus（第三方评论服务 https://disqus.com）
+    [params.page.comment.disqus]
+      enable = false
+      shortname = ""                              # Disqus 短名称
+
+    # Gitalk（基于 GitHub Issues 的评论系统）
+    [params.page.comment.gitalk]
+      enable = false
+      owner = ""                                  # GitHub 用户名
+      repo = ""                                   # 仓库名
+      clientId = ""                               # GitHub OAuth App Client ID
+      clientSecret = ""                           # GitHub OAuth App Client Secret
+
+    # Valine（无后端评论系统，基于 LeanCloud）
+    [params.page.comment.valine]
+      enable = false
+      appId = ""                                  # LeanCloud App ID
+      appKey = ""                                 # LeanCloud App Key
+
+    # Waline（Valine 的升级版，功能更多 https://waline.js.org）
+    [params.page.comment.waline]
+      enable = false
+      serverURL = ""                              # Waline 服务端地址
+
+    # Facebook Comments
+    [params.page.comment.facebook]
+      enable = false
+      width = "100%"
+      numPosts = 10                               # 显示的评论数
+      appId = ""
+      languageCode = ""
+
+    # Telegram Comments（https://comments.app）
+    [params.page.comment.telegram]
+      enable = false
+      siteID = ""
+      limit = 5
+
+    # Commento（开源评论系统 https://commento.io）
+    [params.page.comment.commento]
+      enable = false
+
+    # Utterances（基于 GitHub Issues 的轻量评论系统 https://utteranc.es）
+    [params.page.comment.utterances]
+      enable = false
+      repo = ""                                   # 格式：用户名/仓库名
+      issueTerm = "pathname"                      # Issue 关联方式：pathname/url/title/og:title
+
+    # Twikoo（基于腾讯云 CloudBase 的评论系统 https://twikoo.js.org/）
+    [params.page.comment.twikoo]
+      enable = false
+      envId = ""                                  # 腾讯云 CloudBase 环境 ID
+      region = ""                                 # 地域（ap-shanghai 等）
+
+    # Giscus（推荐！基于 GitHub Discussions https://giscus.app）
+    [params.page.comment.giscus]
+      enable = false
+      repo = ""                                   # 格式：用户名/仓库名
+      repoId = ""                                 # 仓库 ID（在 Giscus 官网获取）
+      category = ""                               # Discussion 分类名
+      categoryId = ""                             # 分类 ID
+      mapping = ""                                # 页面映射方式
+      origin = "https://giscus.app"               # 自托管地址
+      strict = "0"                                # 严格匹配模式
+      term = ""                                   # 映射 term
+      reactionsEnabled = "1"                      # 是否启用表情反应
+      emitMetadata = "0"
+      inputPosition = "bottom"                    # 输入框位置：top/bottom
+      lang = ""                                   # 语言
+      lightTheme = "light"                        # 浅色主题
+      darkTheme = "dark"                          # 深色主题
+      lazyLoad = true                             # 是否懒加载
+
+
+  # ---- 第三方库 ----
+  #      在文章页面中额外加载自定义 CSS 或 JS
+  #      文件放在 assets/ 目录下，或填写 CDN 链接
+  [params.page.library]
+    [params.page.library.css]
+    # someCSS = "some.css"                        # 本地：assets/some.css
+    # someCSS = "https://cdn.example.com/some.css" # 远程 CDN
+
+    [params.page.library.js]
+    # someJS = "some.js"                          # 本地：assets/some.js
+    # someJS = "https://cdn.example.com/some.js"  # 远程 CDN
+
+
+  # ---- 页面 SEO 配置 ----
+  [params.page.seo]
+    images = []                                   # 文章默认 SEO 配图列表
+
+    [params.page.seo.publisher]
+      name = "魏俊浩"                             # 发布者名称（SEO schema）
+      logoUrl = ""                                # 发布者 Logo URL
