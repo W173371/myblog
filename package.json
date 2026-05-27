@@ -1,10 +1,9 @@
 {
   "scripts": {
-    "postinstall": "node fix-sass.js",
+    "postinstall": "sh get-sass.sh",
     "build": "hugo --minify"
   },
   "dependencies": {
-    "hugo-extended": "^0.161.0",
-    "sass": "^1.86.0"
+    "hugo-extended": "^0.161.0"
   }
 }
