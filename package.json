@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "postinstall": "sh get-sass.sh",
+    "postinstall": "node get-sass.js",
     "build": "hugo --minify"
   },
   "dependencies": {
