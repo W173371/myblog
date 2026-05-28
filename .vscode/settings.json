@@ -1,5 +1,6 @@
 {
     "[markdown]": {
     },
-    "markdown.validate.enabled": true
+    "markdown.validate.enabled": true,
+    "pasteImage.path": "${currentFileDir}"
 }
