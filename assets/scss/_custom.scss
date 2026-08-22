@@ -112,3 +112,89 @@ sup.footnote-ref a {
     }
   }
 }
+
+// ---------------------------------------------------------------
+// 首页双栏：左分组 / 右列表
+// ---------------------------------------------------------------
+.home .two-col {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+.cat-nav {
+  position: sticky;
+  top: 84px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.cat-nav-title {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary, #888);
+  margin: 0 0.75rem 0.4rem;
+}
+
+.cat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.cat-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  color: var(--text, #333);
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover {
+    background: var(--code-bg, rgba(175, 184, 193, 0.15));
+  }
+
+  &.active {
+    background: rgba(192, 80, 77, 0.12);
+    color: #c0504d;
+    font-weight: 600;
+  }
+}
+
+.cat-count {
+  font-size: 0.78rem;
+  color: var(--text-secondary, #888);
+}
+
+.post-list {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .home .two-col {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .cat-nav {
+    position: static;
+  }
+  .cat-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .cat-link {
+    width: auto;
+  }
+}
