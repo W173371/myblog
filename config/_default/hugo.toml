@@ -1,0 +1,36 @@
+# -- Site Configuration --
+# Blowfish 要求配置放 config/_default/ 下（不再用根目录 hugo.toml）
+# 参考：https://blowfish.page/docs/getting-started/
+
+theme = "blowfish"
+baseURL = "https://w173371.github.io/myblog/"
+title = "魏俊浩的博客"
+defaultContentLanguage = "en"
+
+enableRobotsTXT = true
+summaryLength = 0
+
+buildDrafts = false
+buildFuture = false
+
+enableEmoji = true
+
+[pagination]
+  pagerSize = 100
+
+[imaging]
+  anchor = 'Center'
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  author = "authors"
+  series = "series"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[sitemap]
+  changefreq = 'daily'
+  filename = 'sitemap.xml'
+  priority = 0.5

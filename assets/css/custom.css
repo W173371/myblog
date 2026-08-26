@@ -1,0 +1,38 @@
+/* ===========================================================
+   科技极简 · 仅做主题工具类无法覆盖的兜底
+   （Blowfish 预编译 CSS 不含 md:sticky / col-span，
+     故双栏吸顶用原生 CSS 实现，其余全走主题原生类）
+   =========================================================== */
+
+/* 首页介绍卡片：从白色页面中区分出来 */
+.wb-hero-card {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2.75rem 1.75rem;
+  border: 1px solid rgb(var(--color-neutral-200));
+  border-radius: 1rem;
+  background: rgb(var(--color-neutral-100));
+  text-align: center;
+}
+.dark .wb-hero-card {
+  border-color: rgb(var(--color-neutral-800));
+  background: rgb(var(--color-neutral-900));
+}
+
+/* 文章页双栏：左栏固定宽度 + 吸顶（md:sticky 未编译，用原生 CSS 兜底） */
+.wb-aside {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .wb-aside {
+    width: 15rem;
+    position: sticky;
+    top: 6rem;
+    align-self: flex-start;
+  }
+}
+
+/* 锚点平滑滚动时的顶部偏移，避免被固定头栏遮挡 */
+:target {
+  scroll-margin-top: 6rem;
+}

@@ -1,0 +1,69 @@
+# -- Theme Options (Blowfish) --
+# 参考：https://blowfish.page/docs/configuration/
+
+colorScheme = "blowfish"
+defaultAppearance = "light"   # light / dark
+autoSwitchAppearance = true  # 跟随系统明暗
+
+enableA11y = false
+enableSearch = true
+enableCodeCopy = true
+enableStructuredBreadcrumbs = false
+
+replyByEmail = false
+
+disableImageOptimization = false
+hotlinkFeatureImage = false
+fingerprintAlgorithm = "sha512"
+
+[languageRedirect]
+  enabled = false
+
+[header]
+  layout = "basic"   # basic / fixed / floating ...
+
+[footer]
+  showMenu = true
+  showCopyright = true
+  showThemeAttribution = true
+  showAppearanceSwitcher = true
+  showScrollToTop = true
+
+[homepage]
+  # 用 custom 布局，由 layouts/partials/home/custom.html 实现「左分组树 + 右列表」
+  layout = "custom"
+  showRecent = false
+
+[article]
+  showDate = true
+  showDateOnlyInArticle = false
+  showAuthor = false
+  showHero = false
+  showBreadcrumbs = false
+  showDraftLabel = true
+  showEdit = false
+  showHeadingAnchors = true
+  showPagination = true
+  showReadingTime = true
+  showTableOfContents = true
+  showWordCount = true
+  showTaxonomies = true
+  showCategories = true
+  showTags = true
+
+[list]
+  showHero = false
+  showSummary = true
+  showBreadcrumbs = false
+  showCards = false
+  groupByYear = true
+
+[sitemap]
+  excludedKinds = ["taxonomy", "term"]
+
+[taxonomy]
+  showTermCount = true
+
+[term]
+  showHero = false
+  showTableOfContents = true

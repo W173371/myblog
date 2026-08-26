@@ -1,0 +1,12 @@
+# Blowfish 顶部导航菜单（main）
+# 参考：https://blowfish.page/docs/menu/
+
+[[main]]
+  name = "文章"
+  pageRef = "/posts"
+  weight = 10
+
+[[main]]
+  name = "关于"
+  pageRef = "/about"
+  weight = 20

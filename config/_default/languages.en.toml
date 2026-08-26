@@ -1,0 +1,21 @@
+disabled = false
+locale = "en"
+label = "English"
+weight = 1
+title = "魏俊浩的博客"
+
+[params]
+  displayName = "EN"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2006-01-02"
+  description = "记录学习与思考"
+
+  [params.author]
+    name = "魏俊浩"
+    image = "images/avatar.png"
+    bio = "记录学习与思考"
+    headline = "记录学习与思考"
+    links = [
+      { github = "https://github.com/W173371" },
+    ]

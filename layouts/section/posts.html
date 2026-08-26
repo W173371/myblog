@@ -1,0 +1,50 @@
+{{ define "main" }}
+  <h1 class="mb-8 text-3xl font-extrabold text-neutral-900 dark:text-neutral">文章</h1>
+
+  {{/* 双栏：左分类分组（原生中性色）/ 右文章列表（原生 article-meta 样式） */}}
+  <div class="mt-2 flex flex-col gap-10 md:flex-row md:gap-12">
+
+    {{/* 左侧：分类分组（sticky 由 custom.css 兜底，md:sticky 未编译故自写类） */}}
+    <aside class="wb-aside flex-none">
+      <div class="mb-4 text-xs font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+        分组 · Categories
+      </div>
+      <ul class="space-y-5 text-sm">
+        {{ range .Site.Taxonomies.categories.Alphabetical }}
+        <li>
+          <div class="flex items-baseline justify-between">
+            <a href="{{ .Page.RelPermalink }}" class="font-semibold text-neutral-800 hover:text-primary-500 dark:text-neutral-100 dark:hover:text-primary-400">{{ .Name }}</a>
+            <span class="font-mono text-xs text-neutral-400">{{ .Count }}</span>
+          </div>
+          <ul class="mt-2 space-y-1 border-l border-neutral-200 pl-3 dark:border-neutral-700">
+            {{ range .Pages }}
+            <li><a href="{{ .RelPermalink }}" class="text-neutral-500 hover:text-primary-500 dark:text-neutral-400">{{ .Title }}</a></li>
+            {{ end }}
+          </ul>
+        </li>
+        {{ end }}
+      </ul>
+    </aside>
+
+    {{/* 右侧：全部文章（原生样式列表项） */}}
+    <div class="min-w-0 flex-1">
+      <div class="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+        全部文章 · Posts ({{ len .Site.RegularPages }})
+      </div>
+      <div>
+        {{ range .Site.RegularPages.ByDate.Reverse }}
+        <article class="border-b border-neutral-200 py-5 dark:border-neutral-700">
+          <h2 class="text-xl font-bold leading-snug">
+            <a href="{{ .RelPermalink }}" class="no-underline text-neutral-800 hover:text-primary-500 dark:text-neutral-100 dark:hover:text-primary-400">{{ .Title }}</a>
+          </h2>
+          <div class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+            {{ partial "article-meta/basic.html" . }}
+          </div>
+          {{ with .Summary }}<p class="mt-2 line-clamp-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">{{ . | plainify }}</p>{{ end }}
+        </article>
+        {{ end }}
+      </div>
+    </div>
+
+  </div>
+{{ end }}
