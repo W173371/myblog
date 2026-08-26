@@ -1,32 +1,8 @@
-# 主题参数（Blowfish 原生默认值基础上的少量覆盖）
-# 完整参数见 https://blowfish.page/docs/configuration/
+# 站点参数（供 deck 模板与文章页读取）
+[params]
+  author = "魏俊浩"
+  # 首页欢迎屏标语（占位，替换成你的真实 slogan）
+  slogan = "记录技术、项目与思考"
 
-colorScheme = "blowfish"        # 配色方案：blowfish/ocean/violet/avocado/fireworks...
-defaultAppearance = "light"     # light / dark
-autoSwitchAppearance = true     # 跟随系统明暗
-
-enableSearch = true             # 站内搜索
-enableCodeCopy = true           # 代码块复制按钮
-
-[header]
-  layout = "basic"              # basic / fixed / floating
-
-[footer]
-  showScrollToTop = true
-  showThemeAttribution = true
-
-[homepage]
-  layout = "profile"            # 原生布局：头像 + 简介 + 近期文章
-  showRecent = true
-  showRecentItems = 6
-
-[article]
-  showAuthor = false            # 文章页不显示作者块
-  showTableOfContents = true    # 显示目录
-  showReadingTime = true
-
-[list]
-  groupByYear = true
-
-[taxonomy]
-  showTermCount = true
+  # 「数字化项目」分区 = 命中以下任一分类关键词的文章（大小写不敏感）
+  projectCategories = ["数字化项目", "数字化", "AI项目", "ai", "项目"]

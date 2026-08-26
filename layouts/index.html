@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Site.Title }}</title>
+  <meta name="description" content="{{ .Site.Params.slogan }}">
+  <link rel="stylesheet" href="{{ "deck.css" | relURL }}">
+</head>
+<body>
+  <div class="deck">
+
+    <!-- 0. 欢迎屏 -->
+    <section class="screen screen--home is-active" data-screen="home">
+      <div class="home-inner">
+        <h1 class="home-title">{{ .Site.Title }}</h1>
+        <p class="home-slogan">{{ .Site.Params.slogan }}</p>
+        <button class="enter-btn" data-go="directory">进入 <span aria-hidden="true">→</span></button>
+        <p class="home-hint">点击进入，或按 → / 空格</p>
+      </div>
+    </section>
+
+    <!-- 1. 目录导航屏 -->
+    <section class="screen screen--directory" data-screen="directory">
+      <div class="dir-inner">
+        <h2 class="dir-heading">导航</h2>
+        <div class="dir-grid">
+          <button class="dir-card" data-go="resume">
+            <span class="dir-card-title">个人简历</span>
+            <span class="dir-card-sub">关于我 · 经历 · 技能</span>
+          </button>
+          <button class="dir-card" data-go="projects">
+            <span class="dir-card-title">数字化项目</span>
+            <span class="dir-card-sub">AI 与数字化实践</span>
+          </button>
+          <button class="dir-card" data-go="articles">
+            <span class="dir-card-title">文章</span>
+            <span class="dir-card-sub">全部随笔与笔记</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 个人简历（占位） -->
+    <section class="screen screen--resume" data-screen="resume">
+      <div class="resume-inner">
+        <h2 class="screen-title">个人简历</h2>
+        <div class="resume-block">
+          <h3>关于我</h3>
+          <p>占位：一句话定位 + 核心标签（待你填写）。</p>
+        </div>
+        <div class="resume-block">
+          <h3>经历</h3>
+          <ul class="timeline">
+            <li><span class="tl-year">20XX</span> 占位：某公司 / 某角色</li>
+            <li><span class="tl-year">20XX</span> 占位：某公司 / 某角色</li>
+          </ul>
+        </div>
+        <div class="resume-block">
+          <h3>技能</h3>
+          <p>占位：技术栈 / 能力矩阵（待你填写）。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 数字化项目 -->
+    <section class="screen screen--list" data-screen="projects">
+      <div class="list-inner">
+        <h2 class="screen-title">数字化项目</h2>
+        <ul class="post-list" id="list-projects"></ul>
+        <p class="list-empty" id="empty-projects" hidden>暂无内容——去发一篇带「数字化项目 / AI项目」分类的文章即可出现在这里。</p>
+      </div>
+    </section>
+
+    <!-- 4. 文章 -->
+    <section class="screen screen--list" data-screen="articles">
+      <div class="list-inner">
+        <h2 class="screen-title">文章</h2>
+        <ul class="post-list" id="list-articles"></ul>
+        <p class="list-empty" id="empty-articles" hidden>暂无文章。</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 常驻导航 -->
+  <nav class="deck-nav" id="deck-nav" hidden>
+    <button data-go="home">首页</button>
+    <button data-go="directory">目录</button>
+  </nav>
+
+  <script id="wb-data" type="application/json">{{ partial "deck-data.html" . }}</script>
+  <script src="{{ "deck.js" | relURL }}"></script>
+</body>
+</html>

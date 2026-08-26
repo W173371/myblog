@@ -1,36 +1,23 @@
-# -- Site Configuration --
-# Blowfish 要求配置放 config/_default/ 下（不再用根目录 hugo.toml）
-# 参考：https://blowfish.page/docs/getting-started/
-
-theme = "blowfish"
+# 魏俊浩的博客 — PPT 风格（B-low：Hugo 无头 CMS + 自建静态 deck）
+# Hugo 只负责把 Markdown 文章编译成独立阅读页，并给首页 deck 提供数据。
 baseURL = "https://w173371.github.io/myblog/"
 title = "魏俊浩的博客"
-defaultContentLanguage = "en"
-
+locale = "zh-CN"
 enableRobotsTXT = true
-summaryLength = 0
+summaryLength = 30
+paginate = 20
 
-buildDrafts = false
-buildFuture = false
-
-enableEmoji = true
-
-[pagination]
-  pagerSize = 100
-
-[imaging]
-  anchor = 'Center'
+# 只渲染：单篇文章页（single）+ 首页 deck（home）
+# 禁用 Hugo 自带的列表/分类/标签/RSS/sitemap 等页面（列表由 deck 接管）
+disableKinds = ["section", "taxonomy", "term", "RSS", "sitemap", "404"]
 
 [taxonomies]
-  tag = "tags"
   category = "categories"
-  author = "authors"
-  series = "series"
+  tag = "tags"
 
-[outputs]
-  home = ["HTML", "RSS", "JSON"]
+[markup.goldmark.renderer]
+  unsafe = true
 
-[sitemap]
-  changefreq = 'daily'
-  filename = 'sitemap.xml'
-  priority = 0.5
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 4

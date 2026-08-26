@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Title }} · {{ .Site.Title }}</title>
+  <meta name="description" content="{{ .Summary | plainify | truncate 120 }}">
+  <link rel="stylesheet" href="{{ "article.css" | relURL }}">
+</head>
+<body>
+  <article class="article">
+    <header class="article-head">
+      <a class="back" href="{{ .Site.Home.RelPermalink }}">← 返回</a>
+      <h1 class="article-title">{{ .Title }}</h1>
+      <p class="article-meta">
+        {{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} 分钟阅读
+        {{- with .Params.categories }} · {{ delimit . " / " }}{{ end -}}
+      </p>
+    </header>
+    <div class="article-body">
+      {{ .Content }}
+    </div>
+    <footer class="article-foot">
+      <a class="back" href="{{ .Site.Home.RelPermalink }}">← 返回首页</a>
+    </footer>
+  </article>
+</body>
+</html>
