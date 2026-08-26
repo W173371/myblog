@@ -1,69 +1,32 @@
-# -- Theme Options (Blowfish) --
-# 参考：https://blowfish.page/docs/configuration/
+# 主题参数（Blowfish 原生默认值基础上的少量覆盖）
+# 完整参数见 https://blowfish.page/docs/configuration/
 
-colorScheme = "blowfish"
-defaultAppearance = "light"   # light / dark
-autoSwitchAppearance = true  # 跟随系统明暗
+colorScheme = "blowfish"        # 配色方案：blowfish/ocean/violet/avocado/fireworks...
+defaultAppearance = "light"     # light / dark
+autoSwitchAppearance = true     # 跟随系统明暗
 
-enableA11y = false
-enableSearch = true
-enableCodeCopy = true
-enableStructuredBreadcrumbs = false
-
-replyByEmail = false
-
-disableImageOptimization = false
-hotlinkFeatureImage = false
-fingerprintAlgorithm = "sha512"
-
-[languageRedirect]
-  enabled = false
+enableSearch = true             # 站内搜索
+enableCodeCopy = true           # 代码块复制按钮
 
 [header]
-  layout = "basic"   # basic / fixed / floating ...
+  layout = "basic"              # basic / fixed / floating
 
 [footer]
-  showMenu = true
-  showCopyright = true
-  showThemeAttribution = true
-  showAppearanceSwitcher = true
   showScrollToTop = true
+  showThemeAttribution = true
 
 [homepage]
-  # 用 custom 布局，由 layouts/partials/home/custom.html 实现「左分组树 + 右列表」
-  layout = "custom"
-  showRecent = false
+  layout = "profile"            # 原生布局：头像 + 简介 + 近期文章
+  showRecent = true
+  showRecentItems = 6
 
 [article]
-  showDate = true
-  showDateOnlyInArticle = false
-  showAuthor = false
-  showHero = false
-  showBreadcrumbs = false
-  showDraftLabel = true
-  showEdit = false
-  showHeadingAnchors = true
-  showPagination = true
+  showAuthor = false            # 文章页不显示作者块
+  showTableOfContents = true    # 显示目录
   showReadingTime = true
-  showTableOfContents = true
-  showWordCount = true
-  showTaxonomies = true
-  showCategories = true
-  showTags = true
 
 [list]
-  showHero = false
-  showSummary = true
-  showBreadcrumbs = false
-  showCards = false
   groupByYear = true
-
-[sitemap]
-  excludedKinds = ["taxonomy", "term"]
 
 [taxonomy]
   showTermCount = true
-
-[term]
-  showHero = false
-  showTableOfContents = true
