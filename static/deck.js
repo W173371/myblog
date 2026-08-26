@@ -3,7 +3,11 @@
 
   var raw = document.getElementById("wb-data");
   var data = { articles: [], projectCategories: [] };
-  try { data = JSON.parse(raw.textContent); } catch (e) { /* ignore */ }
+  try {
+    var parsed = JSON.parse(raw.textContent);
+    if (typeof parsed === "string") parsed = JSON.parse(parsed); // 兼容双重编码
+    data = parsed;
+  } catch (e) { /* ignore */ }
 
   var articles = data.articles || [];
   var projCats = (data.projectCategories || []).map(function (s) {

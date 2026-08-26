@@ -89,7 +89,7 @@
     <button data-go="directory">目录</button>
   </nav>
 
-  <script id="wb-data" type="application/json">{{ partial "deck-data.html" . }}</script>
+  <script id="wb-data" type="application/json">{{ partial "deck-data.html" . | safeJS }}</script>
   <script src="{{ "deck.js" | relURL }}"></script>
 </body>
 </html>
