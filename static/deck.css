@@ -111,6 +111,15 @@ body{
 .post-meta{ grid-area:meta; color:var(--muted); font-size:.8rem; opacity:.8; }
 .list-empty{ color:var(--muted); padding:2em 0; }
 
+/* ---- 致谢 ---- */
+.thanks-inner{ text-align:center; max-width:680px; }
+.thanks-title{
+  font-size:clamp(2rem,5vw,3rem); font-weight:700; margin:0 0 .8em;
+  color:var(--accent);
+}
+.thanks-text{ font-size:clamp(1rem,2.2vw,1.2rem); color:var(--fg); line-height:1.9; margin:0 0 1em; }
+.thanks-sub{ font-size:1rem; color:var(--muted); margin:0 0 2.4em; }
+
 /* ---- 常驻导航 ---- */
 .deck-nav{
   position:fixed; right:22px; bottom:22px; display:flex; gap:10px; z-index:50;
