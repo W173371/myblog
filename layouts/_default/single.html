@@ -8,9 +8,17 @@
   <link rel="stylesheet" href="{{ "article.css" | relURL }}">
 </head>
 <body>
+  {{ $projCats := .Site.Params.projectCategories | default slice }}
+  {{ $cats := .Params.categories | default slice }}
+  {{ $hit := 0 }}
+  {{ range $projCats }}{{ $p := lower . }}{{ range $cats }}{{ $c := lower . }}{{ if or (in $p $c) (in $c $p) }}{{ $hit = add $hit 1 }}{{ end }}{{ end }}{{ end }}
+  {{ $isProj := gt $hit 0 }}
+  {{ $ret := "articles" }}{{ if $isProj }}{{ $ret = "projects" }}{{ end }}
+  {{ $retLink := printf "%s#%s" .Site.Home.RelPermalink $ret }}
+
   <article class="article">
     <header class="article-head">
-      <a class="back" href="{{ .Site.Home.RelPermalink }}">← 返回</a>
+      <a class="back" href="{{ $retLink }}">← 返回</a>
       <h1 class="article-title">{{ .Title }}</h1>
       <p class="article-meta">
         {{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} 分钟阅读
@@ -20,9 +28,18 @@
     <div class="article-body">
       {{ .Content }}
     </div>
-    <footer class="article-foot">
-      <a class="back" href="{{ .Site.Home.RelPermalink }}">← 返回首页</a>
+    <nav class="article-nav">
+      {{ with .PrevInSection }}<a class="nav-prev" href="{{ .RelPermalink }}"><span class="nav-label">上一篇</span><span class="nav-title">{{ .Title }}</span></a>{{ end }}
+      {{ with .NextInSection }}<a class="nav-next" href="{{ .RelPermalink }}"><span class="nav-label">下一篇</span><span class="nav-title">{{ .Title }}</span></a>{{ end }}
+    </nav>
+    <footer class="article-foot" style="margin-top:2.4em;text-align:center">
+      <a class="back" href="{{ $retLink }}">← 返回列表</a>
     </footer>
   </article>
+
+  <nav class="deck-nav">
+    <a href="{{ .Site.Home.RelPermalink }}">首页</a>
+    <a href="{{ printf "%s#directory" .Site.Home.RelPermalink }}">目录</a>
+  </nav>
 </body>
 </html>

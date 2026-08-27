@@ -103,6 +103,9 @@
     if (nav) nav.hidden = name === "home";
     var active = document.querySelector(".screen.is-active");
     if (active) active.scrollTop = 0;
+    if (history.replaceState) {
+      history.replaceState(null, "", name === "home" ? location.pathname : "#" + name);
+    }
   }
 
   document.addEventListener("click", function (e) {
@@ -135,5 +138,15 @@
     else if (e.key === "Escape") go("directory");
   });
 
-  go("home");
+  var initial = "home";
+  if (location.hash) {
+    var h = location.hash.slice(1);
+    if (document.querySelector('.screen[data-screen="' + h + '"]')) initial = h;
+  }
+  go(initial);
+
+  window.addEventListener("hashchange", function () {
+    var h = location.hash ? location.hash.slice(1) : "home";
+    if (document.querySelector('.screen[data-screen="' + h + '"]')) go(h);
+  });
 })();
