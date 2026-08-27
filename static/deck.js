@@ -19,6 +19,11 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
+  function brief(s) {
+    s = String(s == null ? "" : s).replace(/\s+/g, " ").trim();
+    if (s.length > 80) s = s.slice(0, 80) + "...";
+    return s;
+  }
 
   function matchesProject(cats) {
     if (!cats || !cats.length) return false;
@@ -44,7 +49,7 @@
       link.innerHTML =
         '<span class="post-date">' + esc(a.date) + "</span>" +
         '<span class="post-title">' + esc(a.title) + "</span>" +
-        '<span class="post-summary">' + esc(a.summary) + "</span>" +
+        '<span class="post-summary">' + esc(brief(a.summary)) + "</span>" +
         '<span class="post-meta">' + esc(a.readingTime) + " 分钟阅读</span>";
       li.appendChild(link);
       ul.appendChild(li);

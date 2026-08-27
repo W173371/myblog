@@ -4,6 +4,8 @@
   {{- with .Params.categories -}}
     {{- if reflect.IsSlice . -}}{{- $cats = . -}}{{- else -}}{{- $cats = (slice .) -}}{{- end -}}
   {{- end -}}
-  {{- $articles = $articles | append (dict "title" .Title "date" (.Date.Format "2006-01-02") "summary" (.Plain | truncate 120) "categories" $cats "url" .RelPermalink "readingTime" .ReadingTime) -}}
+  {{- $desc := .Params.description -}}
+  {{- $sum := $desc | default ((.Plain | truncate 70)) -}}
+  {{- $articles = $articles | append (dict "title" .Title "date" (.Date.Format "2006-01-02") "summary" $sum "categories" $cats "url" .RelPermalink "readingTime" .ReadingTime) -}}
 {{- end -}}
 {{- dict "articles" $articles "projectCategories" (.Site.Params.projectCategories | default slice) | jsonify -}}
