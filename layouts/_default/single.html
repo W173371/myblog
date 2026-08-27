@@ -16,30 +16,46 @@
   {{ $ret := "articles" }}{{ if $isProj }}{{ $ret = "projects" }}{{ end }}
   {{ $retLink := printf "%s#%s" .Site.Home.RelPermalink $ret }}
 
-  <article class="article">
-    <header class="article-head">
-      <a class="back" href="{{ $retLink }}">← 返回</a>
-      <h1 class="article-title">{{ .Title }}</h1>
-      <p class="article-meta">
-        {{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} 分钟阅读
-        {{- with .Params.categories }} · {{ delimit . " / " }}{{ end -}}
-      </p>
-    </header>
-    <div class="article-body">
-      {{ .Content }}
-    </div>
-    <nav class="article-nav">
-      {{ with .PrevInSection }}<a class="nav-prev" href="{{ .RelPermalink }}"><span class="nav-label">上一篇</span><span class="nav-title">{{ .Title }}</span></a>{{ end }}
-      {{ with .NextInSection }}<a class="nav-next" href="{{ .RelPermalink }}"><span class="nav-label">下一篇</span><span class="nav-title">{{ .Title }}</span></a>{{ end }}
-    </nav>
-    <footer class="article-foot" style="margin-top:2.4em;text-align:center">
-      <a class="back" href="{{ $retLink }}">← 返回列表</a>
-    </footer>
-  </article>
+  {{ $toc := .TableOfContents }}
+  {{ $hasToc := ge (len (findRE "<li" $toc)) 2 }}
+
+  <div class="page-wrap{{ if $hasToc }} has-toc{{ end }}">
+
+    {{ if $hasToc }}
+    <aside class="toc-side">
+      <p class="toc-label">目录</p>
+      {{ $toc }}
+    </aside>
+    {{ end }}
+
+    <article class="article">
+      <header class="article-head">
+        <a class="back" href="{{ $retLink }}">← 返回</a>
+        <h1 class="article-title">{{ .Title }}</h1>
+        <p class="article-meta">
+          {{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} 分钟阅读
+          {{- with .Params.categories }} · {{ delimit . " / " }}{{ end -}}
+        </p>
+      </header>
+      <div class="article-body">
+        {{ .Content }}
+      </div>
+      <nav class="article-nav">
+        {{ with .PrevInSection }}<a class="nav-prev" href="{{ .RelPermalink }}"><span class="nav-label">上一篇</span><span class="nav-title">{{ .Title }}</span></a>{{ end }}
+        {{ with .NextInSection }}<a class="nav-next" href="{{ .RelPermalink }}"><span class="nav-label">下一篇</span><span class="nav-title">{{ .Title }}</span></a>{{ end }}
+      </nav>
+      <footer class="article-foot" style="margin-top:2.4em;text-align:center">
+        <a class="back" href="{{ $retLink }}">← 返回列表</a>
+      </footer>
+    </article>
+
+  </div>
 
   <nav class="deck-nav">
     <a href="{{ .Site.Home.RelPermalink }}">首页</a>
     <a href="{{ printf "%s#directory" .Site.Home.RelPermalink }}">目录</a>
   </nav>
+
+  {{ if $hasToc }}<script src="{{ "toc.js" | relURL }}" defer></script>{{ end }}
 </body>
 </html>

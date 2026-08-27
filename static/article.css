@@ -16,15 +16,52 @@ body{
   line-height:1.75; -webkit-font-smoothing:antialiased;
 }
 
-.article{ max-width:var(--maxw); margin:0 auto; padding:8vh 24px 16vh; }
+/* ---- 页面容器：无目录时单栏居中，有目录时左目录 + 右正文 ---- */
+.page-wrap{ padding:8vh 24px 16vh; }
+.article{ max-width:var(--maxw); margin:0 auto; }
+
+.page-wrap.has-toc{
+  display:grid;
+  grid-template-columns:220px minmax(0,var(--maxw));
+  gap:56px;
+  justify-content:center;
+  align-items:start;
+}
+
+/* ---- 左侧目录（sticky 跟随滚动） ---- */
+.toc-side{
+  position:sticky; top:8vh; align-self:start;
+  max-height:78vh; overflow-y:auto; font-size:.88rem;
+}
+.toc-label{
+  margin:0 0 .9em; color:var(--muted);
+  font-size:.72rem; letter-spacing:.14em;
+}
+#TableOfContents ul{ list-style:none; margin:0; padding:0; }
+#TableOfContents ul ul{ padding-left:.9em; }
+#TableOfContents li{ margin:.1em 0; }
+#TableOfContents a{
+  display:block; padding:.34em 0 .34em .8em;
+  color:var(--muted); text-decoration:none; line-height:1.5;
+  border-left:2px solid var(--border);
+  transition:color .2s ease, border-color .2s ease;
+}
+#TableOfContents a:hover{ color:var(--fg); border-left-color:var(--muted); }
+#TableOfContents a.is-active{ color:var(--accent); border-left-color:var(--accent); }
+
+@media (max-width:1100px){
+  .page-wrap.has-toc{ display:block; }
+  .toc-side{ display:none; }
+}
 
 .article-head{ margin-bottom:2.4em; }
 .article-title{ font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.25; margin:0 0 .5em; font-weight:700; }
 .article-meta{ color:var(--muted); font-size:.9rem; margin:0; }
 
 .article-body{ font-size:1.05rem; }
-.article-body h2{ margin-top:2em; font-size:1.5rem; border-bottom:1px solid var(--border); padding-bottom:.3em; }
-.article-body h3{ margin-top:1.6em; font-size:1.2rem; }
+.article-body h2{ margin-top:2em; font-size:1.5rem; border-bottom:1px solid var(--border); padding-bottom:.3em; scroll-margin-top:2rem; }
+.article-body h3{ margin-top:1.6em; font-size:1.2rem; scroll-margin-top:2rem; }
+.article-body h4{ margin-top:1.4em; font-size:1.05rem; scroll-margin-top:2rem; }
 .article-body p{ margin:1.1em 0; }
 .article-body img{ max-width:100%; height:auto; border-radius:10px; }
 .article-body a{ color:var(--accent); }
