@@ -26,7 +26,7 @@ body{
 .screen{
   position:absolute; inset:0;
   display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
+  align-items:center; justify-content:flex-start;
   padding:7vh 8vw;
   opacity:0; transform:translateY(24px) scale(.995);
   transition:opacity .45s ease, transform .45s ease;
@@ -34,6 +34,15 @@ body{
   overflow-y:auto;
 }
 .screen.is-active{ opacity:1; transform:none; pointer-events:auto; }
+
+/* 内容短、需要视觉居中的屏单独覆盖 */
+.screen--home,
+.screen--directory,
+.screen--thanks{ justify-content:center; }
+
+/* 列表/简历等长内容屏：顶部自然排列，避免内容被居中截断 */
+.screen--list,
+.screen--resume{ justify-content:flex-start; }
 
 /* ---- 欢迎屏 ---- */
 .home-inner{ text-align:center; max-width:760px; }
