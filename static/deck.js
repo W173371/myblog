@@ -10,6 +10,8 @@
   } catch (e) { /* ignore */ }
 
   var articles = data.articles || [];
+  var articleCats = data.articleCategories || [];
+  var currentArticleFilter = "all";
   var projCats = (data.projectCategories || []).map(function (s) {
     return String(s).toLowerCase();
   });
@@ -31,6 +33,27 @@
     return projCats.some(function (p) {
       return lc.some(function (c) { return c.indexOf(p) > -1 || p.indexOf(c) > -1; });
     });
+  }
+
+  function renderFilterBar() {
+    var bar = document.getElementById("filter-articles");
+    if (!bar) return;
+    var html = '<button class="filter-btn is-active" data-filter="all">全部</button>';
+    articleCats.forEach(function (cat) {
+      html += '<button class="filter-btn" data-filter="' + esc(cat) + '">' + esc(cat) + "</button>";
+    });
+    bar.innerHTML = html;
+  }
+
+  function applyArticleFilter() {
+    var filtered = articles;
+    if (currentArticleFilter !== "all") {
+      filtered = articles.filter(function (a) {
+        var cats = (a.categories || []).map(function (c) { return String(c); });
+        return cats.indexOf(currentArticleFilter) > -1;
+      });
+    }
+    renderList("list-articles", "empty-articles", filtered);
   }
 
   function renderList(ulId, emptyId, items) {
@@ -58,11 +81,20 @@
 
   var projects = articles.filter(function (a) { return matchesProject(a.categories); });
 
-  renderList("list-articles", "empty-articles", articles);
+  renderFilterBar();
+  applyArticleFilter();
   renderList("list-projects", "empty-projects", projects);
 
   var screens = Array.prototype.slice.call(document.querySelectorAll(".screen"));
   var nav = document.getElementById("deck-nav");
+
+  function resetArticleFilter() {
+    currentArticleFilter = "all";
+    var buttons = document.querySelectorAll("#filter-articles .filter-btn");
+    buttons.forEach(function (b) { b.classList.remove("is-active"); });
+    var allBtn = document.querySelector('#filter-articles [data-filter="all"]');
+    if (allBtn) allBtn.classList.add("is-active");
+  }
 
   function go(name) {
     screens.forEach(function (s) {
@@ -75,7 +107,22 @@
 
   document.addEventListener("click", function (e) {
     var t = e.target.closest("[data-go]");
-    if (t) { e.preventDefault(); go(t.getAttribute("data-go")); }
+    if (t) {
+      e.preventDefault();
+      var name = t.getAttribute("data-go");
+      if (name === "articles") resetArticleFilter();
+      go(name);
+      return;
+    }
+    var f = e.target.closest("[data-filter]");
+    if (f) {
+      e.preventDefault();
+      currentArticleFilter = f.getAttribute("data-filter");
+      document.querySelectorAll("#filter-articles .filter-btn").forEach(function (b) {
+        b.classList.toggle("is-active", b.getAttribute("data-filter") === currentArticleFilter);
+      });
+      applyArticleFilter();
+    }
   });
 
   document.addEventListener("keydown", function (e) {

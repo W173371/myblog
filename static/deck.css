@@ -120,6 +120,20 @@ body{
 .post-meta{ grid-area:meta; color:var(--muted); font-size:.8rem; opacity:.8; }
 .list-empty{ color:var(--muted); padding:2em 0; }
 
+/* ---- 文章分类筛选 ---- */
+.filter-bar{
+  display:flex; flex-wrap:wrap; gap:10px;
+  width:100%; max-width:var(--maxw);
+  margin:-.6em 0 1.4em;
+}
+.filter-btn{
+  font-size:.85rem; padding:.45em 1em; border-radius:999px;
+  border:1px solid var(--border); background:transparent; color:var(--muted);
+  cursor:pointer; transition:all .2s ease;
+}
+.filter-btn:hover{ border-color:var(--accent); color:var(--fg); }
+.filter-btn.is-active{ border-color:var(--accent); color:var(--accent); background:rgba(91,140,255,.10); }
+
 /* ---- 致谢 ---- */
 .thanks-inner{ text-align:center; max-width:680px; }
 .thanks-title{
