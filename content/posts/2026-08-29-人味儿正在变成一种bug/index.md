@@ -6,6 +6,9 @@ draft = false
 slug = 'human-bug'
 tags = ['AI', '表达']
 categories = ['数字生活', '杂文']
+
+[build]
+  publishResources = false
 +++
 
 ![封面](cover.png)

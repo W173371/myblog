@@ -9,4 +9,7 @@ categories = [ ]
 # aliases = ['/posts/旧路径']       # 改文件名后，用它接住旧链接避免 404
 # 想让文章出现在「数字化项目」区，categories 里加 "AI项目" 或 "数字化项目"
 # 正文用 ## 分小节，2 节以上会自动生成左侧目录
+
+[build]
+  publishResources = false   # 原图不上传：图片会被自动压缩成 webp 后再发布
 +++

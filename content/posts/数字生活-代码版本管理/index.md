@@ -5,6 +5,9 @@ date = '2026-05-22T11:21:54+08:00'
 draft = false
 tags = [ ]
 categories = [ "数字生活" ]
+
+[build]
+  publishResources = false
 +++
   
  测试一下，推送完以后，有没有自动部署。 

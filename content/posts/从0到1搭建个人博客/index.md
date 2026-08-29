@@ -6,6 +6,9 @@ preview = ""
 draft = false
 tags = [ ]
 categories = [ "数字生活" ]
+
+[build]
+  publishResources = false
 +++
 
 # 为什么搭博客

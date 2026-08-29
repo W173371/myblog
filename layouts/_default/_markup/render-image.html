@@ -1,0 +1,21 @@
+{{- $alt := .PlainText | default "" -}}
+{{- $title := .Title -}}
+{{- $dest := .Destination -}}
+{{- $u := urls.Parse .Page.Site.BaseURL -}}
+{{- $base := strings.TrimSuffix "/" $u.Path -}}
+{{- if hasPrefix $dest "http" -}}
+<img src="{{ $dest | safeURL }}" alt="{{ $alt }}" loading="lazy">
+{{- else -}}
+{{- $img := .Page.Resources.GetMatch $dest -}}
+{{- if $img -}}
+{{- $p := $img -}}
+{{- if gt $img.Width 1200 -}}
+{{- $p = $img.Resize "1200x webp q80" -}}
+{{- else -}}
+{{- $p = $img.Resize (printf "%dx webp q80" $img.Width) -}}
+{{- end -}}
+<img src="{{ $p.RelPermalink }}" alt="{{ $alt }}" width="{{ $p.Width }}" height="{{ $p.Height }}" loading="lazy"{{ with $title }} title="{{ . }}"{{ end }}>
+{{- else -}}
+<img src="{{ if hasPrefix $dest "/" }}{{ $base }}{{ $dest }}{{ else }}{{ $dest | safeURL }}{{ end }}" alt="{{ $alt }}" loading="lazy">
+{{- end -}}
+{{- end -}}
