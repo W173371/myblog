@@ -39,12 +39,12 @@ body{
 
 /* 内容短、需要视觉居中的屏单独覆盖 */
 .screen--home,
-.screen--directory,
-.screen--thanks{ justify-content:center; }
+.screen--directory{ justify-content:center; }
 
-/* 列表/关于我等长内容屏：顶部自然排列，避免内容被居中截断 */
+/* 列表/关于我/致谢等长内容屏：顶部自然排列，避免内容被居中截断 */
 .screen--list,
-.screen--about{ justify-content:flex-start; }
+.screen--about,
+.screen--thanks{ justify-content:flex-start; }
 
 /* ---- 欢迎屏 ---- */
 .home-inner{ text-align:center; max-width:760px; }
@@ -185,13 +185,27 @@ body{
 .filter-btn.is-active{ border-color:var(--accent); color:var(--accent); background:rgba(91,140,255,.10); }
 
 /* ---- 致谢 ---- */
-.thanks-inner{ text-align:center; max-width:680px; }
-.thanks-title{
-  font-size:clamp(2rem,5vw,3rem); font-weight:700; margin:0 0 .8em;
-  color:var(--accent);
+.thanks-inner{ width:100%; max-width:var(--maxw); }
+.thanks-lead{
+  font-size:1.05rem; color:var(--fg); line-height:1.7;
+  margin:0 0 1.8em; padding-left:1em; border-left:3px solid var(--accent);
 }
-.thanks-text{ font-size:clamp(1rem,2.2vw,1.2rem); color:var(--fg); line-height:1.9; margin:0 0 1em; }
-.thanks-sub{ font-size:1rem; color:var(--muted); margin:0 0 2.4em; }
+.thanks-list{ list-style:none; padding:0; margin:0 0 1.6em; }
+.thanks-list li{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:.6em;
+  padding:.95em 0; border-top:1px solid var(--border);
+  color:var(--muted); line-height:1.75;
+}
+.thanks-list li:last-child{ border-bottom:1px solid var(--border); }
+.thanks-to{ color:var(--accent); font-weight:700; white-space:nowrap; }
+.thanks-to::after{ content:"——"; margin:0 .35em; color:var(--border); font-weight:400; }
+.thanks-desc{ flex:1; min-width:220px; }
+.thanks-sign{
+  margin:0 0 2.2em; padding:.9em 1.1em; border-radius:12px;
+  border-left:3px solid var(--accent-2);
+  background:rgba(79,209,197,.08);
+  color:var(--accent-2); font-style:italic; font-weight:700; font-size:1.05rem;
+}
 
 /* ---- 常驻导航 ---- */
 .deck-nav{
