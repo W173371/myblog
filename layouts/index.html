@@ -25,9 +25,9 @@
       <div class="dir-inner">
         <h2 class="dir-heading">导航</h2>
         <div class="dir-grid">
-          <button class="dir-card" data-go="resume">
-            <span class="dir-card-title">个人简历</span>
-            <span class="dir-card-sub">关于我 · 经历 · 技能</span>
+          <button class="dir-card" data-go="about">
+            <span class="dir-card-title">关于我</span>
+            <span class="dir-card-sub">系统 · 角色 · 那些后台进程</span>
           </button>
           <button class="dir-card" data-go="projects">
             <span class="dir-card-title">数字化项目</span>
@@ -45,24 +45,63 @@
       </div>
     </section>
 
-    <!-- 2. 个人简历（占位） -->
-    <section class="screen screen--resume" data-screen="resume">
-      <div class="resume-inner">
-        <h2 class="screen-title">个人简历</h2>
-        <div class="resume-block">
-          <h3>关于我</h3>
-          <p>占位：一句话定位 + 核心标签（待你填写）。</p>
+    <!-- 2. 关于我 -->
+    <section class="screen screen--about" data-screen="about">
+      <div class="about-inner">
+        <h2 class="screen-title">关于我</h2>
+        <p class="about-intro">1994 年，一台设备上线，此后 32 年里陆续装载了三个角色模块：</p>
+
+        <div class="about-group">
+          <p class="about-group-label">前台运行 · Frontend</p>
+          <div class="about-grid">
+            <div class="role-card">
+              <div class="role-head"><span class="role-name">【儿子】</span><span class="role-ver">v1.0</span></div>
+              <p class="role-desc">原始系统，终身维护。</p>
+            </div>
+            <div class="role-card">
+              <div class="role-head"><span class="role-name">【丈夫】</span><span class="role-ver">v2.0</span></div>
+              <p class="role-desc">重大更新，双人协作模式开启。</p>
+            </div>
+            <div class="role-card">
+              <div class="role-head"><span class="role-name">【父亲】</span><span class="role-ver">v3.0</span></div>
+              <p class="role-desc">颠覆性升级，从此没有休眠模式。</p>
+            </div>
+          </div>
         </div>
-        <div class="resume-block">
-          <h3>经历</h3>
-          <ul class="timeline">
-            <li><span class="tl-year">20XX</span> 占位：某公司 / 某角色</li>
-            <li><span class="tl-year">20XX</span> 占位：某公司 / 某角色</li>
-          </ul>
+
+        <p class="about-note">这三个角色几乎占满了我的前台运行空间。但后台还挂着三个进程，属于我自己：</p>
+
+        <div class="about-group about-group--bg">
+          <p class="about-group-label">后台进程 · Background</p>
+          <div class="about-grid">
+            <div class="role-card">
+              <div class="role-head"><span class="role-name">【思考】</span></div>
+              <p class="role-desc">以前算半个文艺青年，敏感，爱写。后来被生活草得只会发出哞哞牛马叫。但叫归叫，还是想写点东西，证明自己还会想。</p>
+            </div>
+            <div class="role-card">
+              <div class="role-head"><span class="role-name">【运动】</span></div>
+              <p class="role-desc">2024 年为了体检指标好看，练了几个月，半马跑进 145。大学时爱打球，现在不打了，但身体还想动。</p>
+            </div>
+            <div class="role-card">
+              <div class="role-head"><span class="role-name">【生活】</span></div>
+              <p class="role-desc">过去基本不旅游，日子过得很普通。现在想多转转，把那些年没看过的世界看回来。</p>
+            </div>
+          </div>
         </div>
-        <div class="resume-block">
-          <h3>技能</h3>
-          <p>占位：技术栈 / 能力矩阵（待你填写）。</p>
+
+        <p class="about-note">还有一个角色，比上面所有的都早。</p>
+
+        <div class="about-group">
+          <div class="about-grid">
+            <div class="role-card role-card--core">
+              <div class="role-head role-head--inline"><span class="role-name">【哥哥】</span><span class="role-desc">四岁那年，系统里多了一个人。从此"我"变成了"我们"。这个模块没有版本号，因为它从诞生起就是完整的。</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-outro">
+          <p>这个博客，就是那个后台进程的日志。写写想想，记记跑跑，偶尔说说去了哪里。不保证更新频率，不保证有用，但保证真实。</p>
+          <p class="about-quote">牛马叫归叫，但不想只会叫。</p>
         </div>
       </div>
     </section>

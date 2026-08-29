@@ -3,6 +3,8 @@
   --fg:#e9e9ec;
   --muted:#9aa0a8;
   --accent:#5b8cff;
+  --accent-2:#4fd1c5;
+  --accent-3:#f0a35e;
   --panel:#171a21;
   --panel-2:#1d212b;
   --border:#262b34;
@@ -40,9 +42,9 @@ body{
 .screen--directory,
 .screen--thanks{ justify-content:center; }
 
-/* 列表/简历等长内容屏：顶部自然排列，避免内容被居中截断 */
+/* 列表/关于我等长内容屏：顶部自然排列，避免内容被居中截断 */
 .screen--list,
-.screen--resume{ justify-content:flex-start; }
+.screen--about{ justify-content:flex-start; }
 
 /* ---- 欢迎屏 ---- */
 .home-inner{ text-align:center; max-width:760px; }
@@ -94,14 +96,62 @@ body{
   border-bottom:1px solid var(--border); padding-bottom:.4em;
 }
 
-/* ---- 简历 ---- */
-.resume-inner{ width:100%; max-width:var(--maxw); }
-.resume-block{ margin-bottom:2em; }
-.resume-block h3{ font-size:1.1rem; color:var(--accent); margin:0 0 .6em; }
-.resume-block p{ color:var(--muted); line-height:1.8; margin:0; }
-.timeline{ list-style:none; padding:0; margin:0; }
-.timeline li{ padding:.5em 0 .5em 5.5em; position:relative; border-left:1px solid var(--border); line-height:1.7; }
-.timeline .tl-year{ position:absolute; left:0; top:.5em; color:var(--muted); font-variant-numeric:tabular-nums; }
+/* ---- 关于我 ---- */
+.about-inner{ width:100%; max-width:var(--maxw); }
+.about-intro{
+  font-size:1.05rem; color:var(--fg); line-height:1.7;
+  margin:0 0 1.8em; padding-left:1em; border-left:3px solid var(--accent);
+}
+.about-group{ margin-bottom:1.6em; }
+.about-group-label{
+  display:flex; align-items:center; gap:.7em; margin:0 0 1em;
+  font-size:.82rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+}
+.about-group-label::after{ content:""; flex:1; height:1px; background:var(--border); }
+.about-grid{
+  display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+}
+.role-card{
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:var(--radius); padding:1.3em 1.4em;
+  transition:border-color .2s ease,transform .2s ease;
+}
+.role-card:hover{ border-color:var(--accent); transform:translateY(-3px); }
+.role-head{ display:flex; align-items:center; gap:.7em; margin-bottom:.7em; }
+.role-name{ font-size:1.2rem; font-weight:700; letter-spacing:.02em; }
+.role-ver{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.8rem; padding:.15em .6em; border-radius:6px;
+  border:1px solid var(--accent); color:var(--accent); background:rgba(91,140,255,.08);
+}
+.role-desc{ color:var(--muted); line-height:1.75; margin:0; font-size:.95rem; }
+
+/* 哥哥卡：角色名与描述同行 */
+.role-head--inline{ flex-wrap:wrap; align-items:baseline; margin-bottom:0; }
+.role-head--inline .role-desc{ flex:1; min-width:220px; }
+
+/* 后台进程：青色强调 */
+.about-group--bg .role-ver{ border-color:var(--accent-2); color:var(--accent-2); background:rgba(79,209,197,.08); }
+.about-group--bg .role-card:hover{ border-color:var(--accent-2); }
+
+/* 哥哥：无版本号，与常规卡片一致（去掉暖橙） */
+.role-card--core{ border-color:var(--border); background:var(--panel); }
+.role-card--core:hover{ border-color:var(--accent); }
+.role-card--core .role-name{ color:var(--fg); }
+
+.about-note{ color:var(--fg); line-height:1.85; margin:0 0 1.2em; }
+.about-outro{
+  margin-top:1.4em; padding:1.4em 1.6em; border-radius:var(--radius);
+  background:var(--panel); border:1px solid rgba(79,209,197,.35);
+}
+.about-outro p{ color:var(--muted); line-height:1.85; margin:0 0 .8em; }
+.about-outro p:last-child{ margin-bottom:0; }
+.about-quote{
+  margin-top:1em; padding:.9em 1.1em; border-radius:12px;
+  border-left:3px solid var(--accent-2);
+  background:rgba(79,209,197,.08);
+  font-style:italic; color:var(--accent-2); font-weight:700; font-size:1.1rem;
+}
 
 /* ---- 列表屏（文章 / 项目） ---- */
 .list-inner{ width:100%; max-width:var(--maxw); }
