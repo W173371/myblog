@@ -10,7 +10,9 @@ draft = false
 tags = [ ]
 categories = [ ]
 # slug = 'my-article'              # 想要干净的英文 URL 时，取消注释并填写
-# aliases = ['/posts/旧路径']       # 改文件名后，用它接住旧链接避免 404
+# aliases = ['/posts/文件名']       # 用了 slug 就必须填！否则按文件名拼的链接会 404
+#   ↑ 这两个是配套关系：一旦写了 slug，文章地址就从「文件名路径」变成 /posts/<slug>/，
+#     文件名路径随即失效。填上 aliases 后，旧链接会自动跳转到新地址。
 # 想让文章出现在「数字化项目」区，categories 里加 "AI项目" 或 "数字化项目"
 # 正文用 ## 分小节，2 节以上会自动生成左侧目录
 

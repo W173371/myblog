@@ -6,7 +6,7 @@ draft = false
 tags = ['注会']
 categories = ['杂文']
 slug = 'give-up-cpa'
-# aliases = ['/posts/旧路径']       # 改文件名后，用它接住旧链接避免 404
+aliases = ['/posts/2026-08-30-我放弃了注会']   # 按文件名拼的旧链接，自动跳转到 /posts/give-up-cpa/
 # 想让文章出现在「数字化项目」区，categories 里加 "AI项目" 或 "数字化项目"
 # 正文用 ## 分小节，2 节以上会自动生成左侧目录
 

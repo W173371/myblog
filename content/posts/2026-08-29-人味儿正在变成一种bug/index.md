@@ -4,6 +4,7 @@ description = '跟 AI 说话说久了，我发现自己在人群里越来越像�
 date = 2026-08-29T15:50:00+08:00
 draft = false
 slug = 'human-bug'
+aliases = ['/posts/2026-08-29-人味儿正在变成一种bug']   # 按文件名拼的旧链接，自动跳转到 /posts/human-bug/
 tags = ['AI', '表达']
 categories = ['数字生活', '杂文']
 

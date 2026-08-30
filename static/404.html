@@ -4,8 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>404 · 页面未找到 | 魏俊浩的博客</title>
-  <link rel="icon" type="image/svg+xml" href="/myblog/favicon.svg">
-  <link rel="alternate icon" type="image/x-icon" href="/myblog/favicon.ico">
+  <!-- 注意：本页是 static 下的静态文件，不经 Hugo 渲染，路径必须硬编码。
+       线上部署在域名根路径（CI 用 Pages 域名覆盖 baseURL），所以这里用 / 开头，
+       不要写成 /myblog/ —— 那会导致 favicon 与「回到首页」全部 404。 -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" type="image/x-icon" href="/favicon.ico">
   <style>
     *{ margin:0; padding:0; box-sizing:border-box; }
     body{
@@ -32,7 +35,7 @@
   <div>
     <p class="code">404</p>
     <p class="desc">你要找的页面，没能从后台进程里输出。</p>
-    <a class="back" href="/myblog/">回到首页 <span aria-hidden="true">→</span></a>
+    <a class="back" href="/">回到首页 <span aria-hidden="true">→</span></a>
   </div>
 </body>
 </html>
