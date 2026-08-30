@@ -1,22 +1,22 @@
 +++
 title = "从0到1搭建个人博客"
-description = ""
+description = "这个博客的缘起"
 date = "2026-05-12T13:27:49+08:00"
 preview = ""
 draft = false
 tags = [ ]
 categories = [ "数字生活" ]
-
-[build]
-  publishResources = false
 +++
 
-# 为什么搭博客
+## 为什么搭博客
 
-一是想重拾表达习惯，二是想全过程使用ai指导，亲自看下ai目前的能力。因为我是文科生，没有编程基础，在以前的印象里，建站是一个需要编程基础的活。  
+一是重拾表达习惯，二是想全过程使用AI指导，亲自看下ai目前的能力。  
+ps我是文科生，没有编程基础，在以前的印象里，建站是一个需要编程基础的活。  
 
-# 建博客全过程
-先是deepseek，了解一下建站的过程。大概分为1构建静态网站2托管平台3部署这么一个链条。
+## 建博客全过程  
+本文记录折腾记录，而不是教程。  
+###  V0了解博客主流路径
+先用deepseek，了解一下建站的过程。大概分为1构建静态网站2托管平台3部署 这么一个链条。
 搭建完成以后的流程是，本地写文章，推送到github，托管平台自动部署，网站自动更新。
 - 为什么选hugo？  
   随便选的，ds推荐了几个路线，hugo是需要动手的，为了练手，选择了hugo 。  
@@ -98,14 +98,45 @@ https://w173371.github.io/myblog/
 仓库界面，选Actions，拉到最下面
 
 ## 买域名、绑定域名
-
+**购买域名**
 我在腾讯云买的个人域名。在腾讯和阿里买就行了。  
 购买域名之前，需要先进行一个实名。实名会有审核时间，
-购买域名以后，注册局也会审核一下域名。  
+购买域名以后，注册局也会审核一下域名。    
+
+**在 GitHub 仓库设置**
+1.进入你的 GitHub Pages 仓库（例如 username.github.io）
+
+2.点击 Settings → 左侧菜单 Pages
+
+3.在 Custom domain 处填写你的域名（例如 example.com 或 www.example.com）
+
+4.点击 Save
+（可选）勾选 Enforce HTTPS —— 等 DNS 生效后可以启用
+
+保存后，GitHub 会自动在仓库根目录生成一个 CNAME 文件（里面就是你的域名）。
+5.然后在本地执行 git pull 同步 CNAME。 之后所有修改都在本地进行，push 前确保 CNAME 文件存在
+如果不小心覆盖了怎么办？  
+别担心，重新在 GitHub 网页端填写域名保存即可，GitHub 会再次生成 CNAME 文件。  
 
 
+**在域名服务商处添加 DNS 记录**
 
-## 日常运维
+## 日常运维语句
+启动：hugo server
+启动后直接打开本地预览： http://localhost:1313/myblog/
+
+推送github
+cd /d E:\hugo\blog\myblog
+git -c http.lowSpeedLimit=0 push origin main
+
+小版本更新：
+cd /d E:\hugo\blog\myblog
+git add -A
+git commit -m "feat: 将 QQ运维机器人 归入 AI项目 分类，填充数字化项目区"
+git -c http.lowSpeedLimit=0 push origin main
+
+push 后等 CI，再开浏览器；
+
 ## 优化记录
 在初步配置成功后，对自带的主题进行优化调整，同时也看到一些优秀的自建博客，参考学习。
 ### 主题中加图片图标
@@ -117,3 +148,9 @@ https://w173371.github.io/myblog/
 
     **我就正常写**
 
+V3 重构PPT版（彻底推翻主题、改成无头模式 + 自建 deck）
+8月下旬，原本是在更新文章样式（左侧文章分组，右侧文章列表，像传统博客样式），突然想到能不能做一个PPT风格的博客，和自己的咨询工作相呼应。说干就干。
+通过workbuddy，重构博客，就是当前版本。
+感想：不要问Ai某件事how to do，而是思考do what，以及为什么干！把自己想要什么想清楚，向AI讲清楚。
+
+写作流程：写文章、本地预览、提交+推送、

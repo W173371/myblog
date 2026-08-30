@@ -1,6 +1,10 @@
 +++
 title = '在这里填标题'
 description = ''
+{{- /* 注意：本文件是模板，不是可以直接复制使用的成品。
+      下面的 date 使用了模板函数，只有在用 hugo new 命令创建文件时才会被替换成真实日期。
+      如果你是手动复制本文件，必须把 date 改成字面值，例如 2026-08-30T15:32:00+08:00。
+      否则 Hugo 会报 "the date front matter field is not a parsable date"，导致整站构建失败。 */}}
 date = '{{ dateFormat "2006-01-02T15:04:05+08:00" .Date }}'
 draft = false
 tags = [ ]
